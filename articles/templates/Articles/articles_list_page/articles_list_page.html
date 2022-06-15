@@ -1,0 +1,449 @@
+{% extends 'base/base.html' %} {% load static %} {% block title %} {{ title }}
+{% endblock %} {% block content %}
+
+<div class="all-articles">
+  <div id="mydivvb" class="mydivvb">
+    <div id="articles" class="articles"></div>
+    <div class="page-slider">
+      <div id="go-back-card" class="page-icon"></div>
+      <div class="page-number" dir="ltr">
+        <div id="page1" class="page1 page">1</div>
+        <div id="page2" class="page2 page">2</div>
+        <div id="page3" class="page2 page">3</div>
+      </div>
+      <div id="go-next-card" class="page-icon"></div>
+    </div>
+  </div>
+
+  <div class="bar-articles">
+    <div class="tab-articles">
+      <div class="search-articles">
+        <input
+          id="article-search"
+          class="search-sml-articles"
+          type="text"
+          placeholder="جستوجو"
+          name="search"
+        />
+        <button
+          id="search-box2"
+          class="btn-search-sml-articles"
+          type="submit"
+        ></button>
+      </div>
+      <div class="articles-title" id="articles-title-one">جدیدترین مقالات</div>
+      <div class="tab-article-details-one" id="tab-article-details-one"></div>
+      <div class="articles-title" id="articles-title-two">برترین مقالات</div>
+      <div class="tab-article-details-two" id="tab-article-details-two"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var mainUrl = "/api/articles/articles-list/"
+  var mainUrlLastest = "/api/articles/articles-latest/"
+  var mainUrlTop = "/api/articles/articles-top/"
+  var mainUrlSearch
+  var obj = []
+  var nextUrl
+  var backUrl
+  var morebtn
+  var nextCard
+  var nextP;
+  var loc;
+  var NextPgeUrl;
+
+
+
+  function loadDataLastest(mainUrlLastest) {
+
+
+      $.ajax({
+          url: mainUrlLastest,
+          type: "get",
+
+          success: (response) => {
+              var newResulteLast = []
+              newResulteLast.push(response.results)
+              if (response.results.length == 0) {
+                  $('#articles-title-one').css("display", "none")
+                  $('#tab-article-details-one').css("display", "none")
+              }
+              newResulteLast[0].forEach(element => {
+                  morebtn = "/articles/detail/" + element.id + "/" + element.slug;
+
+
+                  $('#tab-article-details-one').append(`
+                  <div class="sml-article">
+                  <a class="sml-article-img sml-article-img-A" href="${morebtn}">
+                      <div><img class="article-sml-img article-sml-img-A" src="${element.image}" alt=""></div>
+                  </a>
+                  <div class="articles-text">
+                      <a class="sml-article-title sml-article-title-A" href="${morebtn}">${element.title}</a>
+                      <p class="sml-article-text-detail sml-article-text-detail-A">${element.description}</p>
+                  </div>
+
+              </div>
+              `)
+              })
+          },
+          error: (err) => {
+          }
+      });
+  }
+  loadDataLastest(mainUrlLastest)
+
+  function loadDataTop(mainUrlTop) {
+
+      $.ajax({
+          url: mainUrlTop,
+          type: "get",
+
+          success: (response) => {
+              var newResulteTop = []
+              newResulteTop.push(response.results)
+              console.log(response,'res');
+
+              if (response.results.length == 0) {
+                  $('#articles-title-two').css("display", "none")
+                  $('#tab-article-details-two').css("display", "none")
+              }
+              newResulteTop[0].forEach(element => {
+                  morebtn = "/articles/detail/" + element.id + "/" + element.slug +"/";
+
+                  $('#tab-article-details-two').append(`
+                  <div class="sml-article">
+                  <a class="sml-article-img sml-article-img-A" href="${morebtn}">
+                      <div><img class="article-sml-img article-sml-img-A" src="${element.image}" alt=""></div>
+                  </a>
+                  <div class="articles-text">
+                      <a class="sml-article-title sml-article-title-A" href="${morebtn}">${element.title}</a>
+                      <p class="sml-article-text-detail sml-article-text-detail-A">${element.description}</p>
+                  </div>
+
+              </div>
+              `)
+              })
+          },
+          error: (err) => {
+              console.log(err,'er');
+          }
+      });
+  }
+  loadDataTop(mainUrlTop)
+  $('#page3').on('click', function() {
+      if ($('#page3').html() !== '') {
+          $('#articles').html('')
+          loadData(nextUrl)
+      }
+  })
+  $('#page1').on('click', function() {
+      if ($('#page1').html() !== '') {
+          $('#articles').html('')
+          loadData(backUrl)
+      }
+  })
+
+  $('#go-next-card').on('click', function() {
+      if ($('#page3').html() !== '') {
+          $('#articles').html('')
+          loadData(nextUrl)
+      }
+  })
+  $('#go-back-card').on('click', function() {
+      if ($('#page1').html() !== '') {
+          $('#articles').html('')
+          loadData(backUrl)
+      }
+  })
+
+
+  function loadApi(str) {
+      mainUrlSearch = "/api/articles/search-articles/?q=" + str
+      console.log(mainUrlSearch, 'vv');
+      $.ajax({
+          url: mainUrlSearch,
+          type: "get",
+
+          success: (response) => {
+              var newResulteSearch = []
+              newResulteSearch.push(response.results)
+              console.log(newResulteSearch,'ssss');
+              $('#articles').html(``)
+              newResulteSearch[0].forEach(element => {
+                  morebtn = "/articles/detail/" + element.id + "/" + element.slug + "/";
+
+                  $('#articles').append(`
+          <div class="article-card">
+          <div class="article-image">
+                  <img src="${element.image}" class="product-thumb" alt="" />
+              </div>
+              <div class="article-info">
+
+                  <h2 class="article-title">${element.title}</h2>
+                  <p class="article-info-txt">${element.description}</p>
+                  <div class="bot-article-info">
+                     <div class="bot-article-info-kid">
+                          <div class="bot-article-info-img auther-name-img"></div>
+                          <p class="author-data auther-name">${element.writer_fullname}</p>
+                     </div>
+                      <div class="bot-article-info-kid">
+                          <div class="bot-article-info-img auther-date-img"  ></div>
+                          <p class="author-data auther-date">${element.jdate}</p>
+                      </div>
+
+                  </div>
+                  <div class="read-more">
+                     <a class="read-more-in" href="${morebtn}">ادامه مطلب</a>
+                  </div>
+              </div>
+              </div>
+              `)
+              })
+
+              if (response.previous == null && response.next == null) {
+                  $('#page1').html(``);
+                  $('#page2').html('1');
+                  $('#page3').html(``);
+              }
+              if (response.previous == null && response.next !== null) {
+                  nextUrl = response.next;
+                  $('#page1').html(``);
+                  $('#page2').html('1');
+                  $('#page3').html('2');
+                  console.log(nextUrl);
+                  console.log(backUrl);
+              }
+              if (response.previous !== null && response.next !== null) {
+                  nextUrl = response.next;
+                  backUrl = response.previous;
+                  let nUrls = new URL(response.next)
+                  let nUrlNums = nUrls.searchParams.get("page");
+                  let currentpages = Number(nUrlNums) - 1;
+                  let prevPageNums = Number(nUrlNums) - 2;
+                  $('#page1').html(`${prevPageNums}`);
+                  $('#page2').html(`${currentpages}`);
+                  $('#page3').html(`${nUrlNums}`);
+                  console.log(nextUrl);
+                  console.log(backUrl);
+              }
+              if (response.previous !== null && response.next == null) {
+                  backUrl = response.previous;
+                  let nUrls = new URL(response.previous)
+                  let nUrlNums = nUrls.searchParams.get("page");
+                  let currentpages = Number(nUrlNums) + 1;
+                  $('#page1').html(`${nUrlNums}`);
+                  $('#page2').html(`${currentpages}`);
+                  $('#page3').html(``);
+
+              }
+          },
+          error: (err) => {
+
+          }
+      })
+  }
+  $('#search-box2').on('click', function() {
+      let searchTxt = $('#article-search').val()
+      loadApi(searchTxt)
+  })
+
+  var label = {% if label %}`${{label}}`{%else%}null{% endif %}
+
+  if(label){
+      var txtLabel = label.substr(1)
+  }
+
+  var mAry = []
+  // var newUrl = new URL(uuu)
+  // let nUrlLabel = newUrl.searchParams.get("labels");
+  // if(nUrlLabel){
+      // console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+      if(label){
+          $.ajax({
+          url:'/api/articles/articles-filter-labels/?q=' + txtLabel,
+          success:(res)=>{
+              console.log('mlabels',res);
+              $('#articles').html('')
+              mAry.push(res.results[0])
+              console.log('mamad', res.results[0].id);
+              $('#articles').append(`
+
+                 ${mAry.map(element => {
+                     console.log('dsds',element);
+                  return(
+                      `
+                  <div class="article-card">
+                      <div class="article-image">
+                              <img src="${element.image}" class="product-thumb" alt="" />
+                          </div>
+                          <div class="article-info">
+
+                              <h2 class="article-title">${element.title}</h2>
+                              <p class="article-info-txt">${element.description}</p>
+                              <div class="bot-article-info">
+                              <div class="bot-article-info-kid">
+                                      <div class="bot-article-info-img auther-name-img"></div>
+                                      <p class="author-data auther-name">${element.writer_fullname}</p>
+                              </div>
+                                  <div class="bot-article-info-kid">
+                                      <div class="bot-article-info-img auther-date-img"  ></div>
+                                      <p class="author-data auther-date">${element.jdate}</p>
+                                  </div>
+
+                              </div>
+                              <div class="read-more">
+                              <a class="read-more-in" href="${morebtn}">ادامه مطلب</a>
+                              </div>
+                          </div>
+                          </div>
+                  `
+                  )
+
+              })}
+              `)
+
+              if (res.previous == null && res.next == null) {
+                  $('#page1').html('');
+                  $('#page2').html('1');
+                  $('#page3').html('');
+              }
+              if (res.previous == null && res.next !== null) {
+                  nextUrl = res.next;
+                  $('#page1').html(``);
+                  $('#page2').html('1');
+                  $('#page3').html('2');
+              }
+              if (res.previous !== null && res.next !== null) {
+                  nextUrl = res.next;
+                  backUrl = res.previous;
+                  let nUrls = new URL(res.next)
+                  let nUrlNums = nUrls.searchParams.get("page");
+                  let currentpages = Number(nUrlNums) - 1;
+                  let prevPageNums = Number(nUrlNums) - 2;
+                  $('#page1').html(`${prevPageNums}`);
+                  $('#page2').html(`${currentpages}`);
+                  $('#page3').html(`${nUrlNums}`);
+              }
+              if (res.previous !== null && res.next == null) {
+                  if (res.previous == "/api/articles/articles-filter-labels/") {
+                      backUrl = res.previous;
+                      $('#page1').html(`1`);
+                      $('#page2').html('2');
+                      $('#page3').html('');
+                  }
+                  if (res.previous !== "/api/articles/articles-filter-labels/") {
+                      backUrl = res.previous;
+                      let nUrlss = new URL(res.previous)
+                      let nUrlNumss = nUrlss.searchParams.get("page");
+                      let currentpagess = Number(nUrlNumss) + 1;
+                      $('#page1').html(`${nUrlNumss}`);
+                      $('#page2').html(`${currentpagess}`);
+                      $('#page3').html(``);
+                  }
+              }
+
+          },
+          error:(err)=>{
+              console.log("erzzzr",err);
+          }
+      })
+      }
+      else{
+          console.log("nnnnnnnn");
+          // $('#mydivvb').html('<p>hhhhh</p>')
+          function loadData(mainUrl) {
+      $.ajax({
+          url: mainUrl,
+          type: "get",
+          success: (response) => {
+              var newResulte = []
+              newResulte.push(response.results)
+
+              newResulte[0].forEach(element => {
+                  morebtn = "/articles/detail/" + element.id + "/" + element.slug + "/";
+
+                  $('#articles').append(`
+          <div class="article-card">
+          <div class="article-image">
+                  <img src="${element.image}" class="product-thumb" alt="" />
+              </div>
+              <div class="article-info">
+
+                  <h2 class="article-title">${element.title}</h2>
+                  <p class="article-info-txt">${element.description}</p>
+                  <div class="bot-article-info">
+                     <div class="bot-article-info-kid">
+                          <div class="bot-article-info-img auther-name-img"></div>
+                          <p class="author-data auther-name">${element.writer_fullname}</p>
+                     </div>
+                      <div class="bot-article-info-kid">
+                          <div class="bot-article-info-img auther-date-img"  ></div>
+                          <p class="author-data auther-date">${element.jdate}</p>
+                      </div>
+
+                  </div>
+                  <div class="read-more">
+                     <a class="read-more-in" href="${morebtn}">ادامه مطلب</a>
+                  </div>
+              </div>
+              </div>
+              `)
+              })
+
+              if (response.previous == null && response.next == null) {
+                  $('#page1').html('');
+                  $('#page2').html('1');
+                  $('#page3').html('');
+              }
+              if (response.previous == null && response.next !== null) {
+                  nextUrl = response.next;
+                  $('#page1').html(``);
+                  $('#page2').html('1');
+                  $('#page3').html('2');
+              }
+              if (response.previous !== null && response.next !== null) {
+                  nextUrl = response.next;
+                  backUrl = response.previous;
+                  let nUrls = new URL(response.next)
+                  let nUrlNums = nUrls.searchParams.get("page");
+                  let currentpages = Number(nUrlNums) - 1;
+                  let prevPageNums = Number(nUrlNums) - 2;
+                  $('#page1').html(`${prevPageNums}`);
+                  $('#page2').html(`${currentpages}`);
+                  $('#page3').html(`${nUrlNums}`);
+              }
+              if (response.previous !== null && response.next == null) {
+                  if (response.previous == "/api/products/products-list/") {
+                      backUrl = response.previous;
+                      $('#page1').html(`1`);
+                      $('#page2').html('2');
+                      $('#page3').html('');
+                  }
+                  if (response.previous !== "/api/products/products-list/") {
+                      backUrl = response.previous;
+                      let nUrlss = new URL(response.previous)
+                      let nUrlNumss = nUrlss.searchParams.get("page");
+                      let currentpagess = Number(nUrlNumss) + 1;
+                      $('#page1').html(`${nUrlNumss}`);
+                      $('#page2').html(`${currentpagess}`);
+                      $('#page3').html(``);
+                  }
+              }
+          },
+          error: (err) => {
+              console.log(err);
+          }
+      });
+  }
+  loadData(mainUrl)
+
+
+      }
+
+
+
+  // }
+</script>
+
+{% endblock %}

@@ -1,0 +1,395 @@
+body {
+  direction: rtl;
+}
+
+.content1 {
+  width: 100%;
+  height: auto;
+}
+
+.content-box {
+  width: 100%;
+  display: block;
+  margin-top: 5%;
+}
+
+.content-title {
+  width: 90%;
+  color: #f26a4f;
+  font-size: 50px;
+  font-weight: bold;
+  display: block;
+  margin: auto;
+}
+
+.content-text {
+  width: 90%;
+  display: block;
+  margin: auto;
+  font-size: 30px;
+  margin-top: 2%;
+  text-align: justify;
+}
+
+.content-img {
+  text-align: center;
+  margin: 100px 0 0 0;
+}
+
+.content-img img {
+  max-height: 800px !important;
+  width: 90% !important;
+}
+
+.content-text-two {
+  width: 100%;
+  display: block;
+  margin-top: 5%;
+}
+
+.content-text2-sml {
+  display: flex;
+  justify-content: space-evenly;
+  width: 90%;
+  margin: auto;
+}
+
+.content-text2-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: auto;
+  box-shadow: 25px 25px #f26a4f;
+  border-radius: 20px;
+}
+
+.content-text2-img-a {
+  display: block;
+  width: 70%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.intro-img {
+  display: flex;
+  justify-content: space-evenly;
+  width: 80%;
+  margin: auto;
+}
+
+.intro-img img {
+  width: 250px;
+  height: 300px;
+  display: block;
+}
+
+.intro-img-all {
+  width: 100%;
+  display: block;
+  margin-top: 5%;
+}
+
+.content-text2-text {
+  width: 63%;
+  height: auto;
+  font-size: 25px;
+  display: block;
+}
+
+.content-text2-text p {
+  text-align: justify;
+  direction: rtl;
+}
+
+.section-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: auto;
+  margin-top: 100px;
+  background-image: url('../img/pic-45.png');
+  height: 720px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.section-content-detail {
+  width: 800px;
+  margin-right: 200%;
+  margin-top: -9%;
+}
+
+.section-content-detail h3 {
+  font-size: 50px;
+  color: #f35737;
+  font-weight: bold;
+}
+
+.section-content-detail p {
+  font-size: 30px;
+  text-align: justify;
+  margin-left: 15%;
+}
+
+.all-card {
+  display: flex;
+  justify-content: space-evenly;
+  width: 90%;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.avatar-card {
+  text-align: center;
+  width: 30%;
+  height: auto;
+  display: block;
+  box-shadow: 0 0 0 2px rgb(255, 255, 255), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+}
+
+.avatar-card h4 {
+  font-size: 26px;
+}
+
+.avatar-card p {
+  color: #686868;
+  font-size: 25px;
+}
+
+.all-media {
+  width: 100%;
+  display: flex;
+  margin: auto;
+  margin-top: 30px;
+  justify-content: center;
+}
+
+.intro-text {
+  display: block;
+  position: relative;
+  width: 250px;
+  height: 250px;
+  background-color: #bed0ff;
+  border: 5px solid #3f4be8;
+  border-radius: 50%;
+  color: #3f4be8;
+  text-align: center;
+  margin-right: 0;
+}
+
+.card-img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.intro-img-box img {
+  display: block;
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 69%;
+  left: 18%;
+}
+
+.intro-img-box {
+  position: relative;
+}
+
+.intro-p-one {
+  font-size: 40px;
+  margin-right: 0;
+  margin-top: 46px;
+  margin-bottom: 0;
+  font-style: bold;
+}
+
+.intro-p-two {
+  font-size: 30px;
+  margin-right: 0;
+  margin-top: -5px;
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content-title {
+    font-size: 35px;
+  }
+  .content-text {
+    font-size: 20px;
+  }
+  .content-text2-sml {
+    display: block;
+  }
+  .content-text2-img-a {
+    margin: auto;
+  }
+  .content-text2-text {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    margin-top: 7%;
+    font-size: 20px;
+  }
+  .content-text2-text p {
+    width: 100%;
+    margin-right: 0;
+  }
+  .intro-img {
+    width: 95%;
+  }
+  .box-two {
+    margin-top: 25%;
+  }
+  .box-one img,
+  .box-three img {
+    top: 64%;
+  }
+  .intro-p-one {
+    margin-right: 5%;
+    margin-top: 20%;
+    font-size: 30px;
+  }
+  .intro-p-two {
+    margin-top: 0;
+    margin-right: 5%;
+    font-size: 30px;
+  }
+  .card-one {
+    display: inline-block;
+    margin-left: 2% !important;
+    margin-right: 4% !important;
+  }
+  .card-two {
+    display: inline-block;
+  }
+  .card-three {
+    display: block;
+  }
+  .all-card {
+    display: block;
+    width: 100%;
+    padding-bottom: 6%;
+  }
+  .card-img {
+    width: 90%;
+  }
+  .avatar-card {
+    margin: auto;
+    width: 45%;
+    height: auto;
+    margin-top: 5%;
+  }
+  .all-media {
+    width: 90%;
+  }
+}
+
+@media (min-width: 300px) and (max-width: 380px) {
+  .avatar-card h4 {
+    font-size: 20px;
+  }
+  .avatar-media-icons {
+    width: 35px;
+    height: 35px;
+  }
+  .content-text {
+    font-size: 15px !important;
+  }
+  .content-title {
+    font-size: 20px !important;
+  }
+  .content-text2-text {
+    font-size: 15px !important;
+    margin-top: 50px !important;
+  }
+  .avatar-card p {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content-title {
+    font-size: 35px;
+  }
+  .content-text {
+    font-size: 20px;
+  }
+  .content-text2-sml {
+    display: block;
+  }
+  .content-text2-img-a {
+    margin: auto;
+  }
+  .content-text2-text {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    margin-top: 7%;
+    font-size: 20px;
+  }
+  .content-text2-text p {
+    width: 100%;
+    margin-right: 0;
+  }
+  .intro-p-one {
+    margin-right: 5%;
+    margin-top: 20%;
+    font-size: 30px;
+  }
+  .intro-p-two {
+    margin-right: 5%;
+    margin-top: 5%;
+  }
+  .intro-img {
+    display: block;
+  }
+  .all-media {
+    width: 90%;
+  }
+  .all-card {
+    display: block;
+  }
+  .avatar-card {
+    margin-top: 8%;
+    margin-bottom: 8%;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 10%;
+  }
+  .intro-img-box {
+    width: 100%;
+    display: block;
+    margin: auto;
+    margin-bottom: 15%;
+  }
+  .intro-img {
+    width: 100%;
+    height: 1000px;
+  }
+}
+
+.intro-box-detail {
+  width: 250px;
+  height: 250px;
+  display: block;
+  position: relative;
+  margin: auto;
+}
+
+.intro-icon1 {
+  background-image: url(../icons/icon-65.png);
+  background-repeat: no-repeat;
+}
+
+.intro-icon2 {
+  background-image: url(../icons/icon-64.png);
+  background-repeat: no-repeat;
+}
+
+.intro-icon3 {
+  background-image: url(../icons/icon-63.png);
+  background-repeat: no-repeat;
+}

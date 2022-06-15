@@ -1,0 +1,314 @@
+{% extends 'base/base.html' %} {% load static %} {% block title %} {{ title }}
+{% endblock %} {% block content %} {% load static %}
+<!-- <link rel="stylesheet" href="{% static 'css/product.css' %}" /> -->
+
+<!-- slider -->
+<section id="slider" class="">
+  <div class="container">
+    <div class="carousel-inner" id="product-slider"></div>
+  </div>
+
+  <div class="all-dot-btn" id="product-slider-dot"></div>
+</section>
+<!-- slider -->
+<!-----------------------------------------------      body       ---------------------------------------------->
+<div class="background-two" onclick="CloseFastProduct()"></div>
+
+<!-- list -->
+<div>
+  <div class="products-list-container" id="product-list-container"></div>
+  <div class="pagination-list">
+    <a
+      href="#"
+      class="btn btn-primary-page disabled"
+      id="products-list-page-next"
+    >
+      صفحه بعد
+    </a>
+    <a
+      href="#"
+      class="btn btn-primary-page disabled"
+      id="products-list-page-prev"
+    >
+      صفحه قبل
+    </a>
+  </div>
+
+  <!------------------------------------------------------  /body  ------------------------------------------------>
+  <!-------------------------------------------      product slider 1     ---------------------------------------->
+
+  <div class="background"></div>
+  <h1 class="title1">جدید ترین محصولات</h1>
+  <div class="splide" dir="ltr">
+    <div class="splide__track">
+      <ul class="splide__list" id="new-products"></ul>
+    </div>
+  </div>
+
+  <h1 class="title1">بهترین محصولات</h1>
+  <div class="slider-container">
+    <div class="splide">
+      <div class="splide__track">
+        <ul class="splide__list" id="best-products"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!------------------------------------------     /product slider 1      ---------------------------------------->
+  <!-------------------------------------------      product slider 2     ---------------------------------------->
+  <h1 class="title1">آخرین تخفیفات</h1>
+  <div class="slider-container">
+    <div class="splide">
+      <div class="splide__track">
+        <ul class="splide__list" id="discounts-products"></ul>
+      </div>
+    </div>
+  </div>
+  <!------------------------------------------     /product slider 2      ---------------------------------------->
+  <!-------------------------------------------      product slider 3     ---------------------------------------->
+
+  <!------------------------------------------     /product slider 3      ---------------------------------------->
+
+  <script>
+    // product slider
+    const templateProductSlider = ({ image, url }) => {
+      return `
+        <div class="carousel-item fade">
+          <a class="slide" href="${url}"
+            ><img class="slide-img" src="${image}" alt="silder image"
+          /></a>
+        </div>
+        `;
+    };
+
+    $.ajax({
+      url: '{% url "ApiProducts:products_sliders" %}',
+      type: 'get',
+      success: (response) => {
+        [...response.results].forEach((slider, key) => {
+          $('#product-slider').append(templateProductSlider(slider));
+
+          $('#product-slider-dot').append(`
+            <button
+              type="button"
+              class="dot-btn slide-active"
+              onclick="currentSlide(${key + 1})"
+            ></button>
+            `);
+        });
+      },
+    });
+  </script>
+
+  <script>
+    // list  products
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+
+    function insertParam(key, value) {
+      key = encodeURIComponent(key);
+      value = encodeURIComponent(value);
+
+      // kvp looks like ['key1=value1', 'key2=value2', ...]
+      var kvp = document.location.search.substr(1).split('&');
+      let i = 0;
+
+      for (; i < kvp.length; i++) {
+        if (kvp[i].startsWith(key + '=')) {
+          let pair = kvp[i].split('=');
+          pair[1] = value;
+          kvp[i] = pair.join('=');
+          break;
+        }
+      }
+
+      if (i >= kvp.length) {
+        kvp[kvp.length] = [key, value].join('=');
+      }
+
+      // can return this or...
+      let params = kvp.join('&');
+
+      return params;
+    }
+
+    const templateProductsList = ({
+      title,
+      main_image,
+      price,
+      score,
+      discounted_price,
+      slug,
+      id,
+    }) => {
+      const productLink = `{% url "products:product_detail_page" %}${id}/${slug}/`;
+
+      return `
+        <div class="products-list-card">
+          <div class="products-list-card-image-container">
+            <img
+              src="${main_image}"
+              class="products-list-card-image"
+              alt="${title}"
+            />
+          </div>
+          <h4>${title}</h4>
+          <div>
+          ${'<i class="fa fa-star"></i>'.repeat(score)}
+          </div>
+
+          ${
+            discounted_price
+              ? `<div class="price"><del>${price}T</del></div>`
+              : `<div class="price">${price}T</div>`
+          }
+          ${
+            discounted_price
+              ? `<div class="price">${discounted_price}T</div>`
+              : ``
+          }
+          <div>
+            <a href="${productLink}" class="btn btn-primary btn-list-products">دیدن محصول</a>
+          </div>
+       </div>
+        `;
+    };
+
+    const ajaxGetListProducts = (url) => {
+      $.ajax({
+        url,
+        type: 'get',
+        success: (response) => {
+          // next page
+          if (response.next) {
+            const nextPage = +params.page + 1 || 2;
+            $('#products-list-page-next').removeClass('disabled');
+            $('#products-list-page-next').prop(
+              'href',
+              `/products/${insertParam('page', nextPage)}`
+            );
+          }
+          // prev page
+          if (response.previous) {
+            const nextPage = +params.page - 1 || 1;
+            $('#products-list-page-prev').removeClass('disabled');
+            $('#products-list-page-prev').prop(
+              'href',
+              `/products/${insertParam('page', nextPage)}`
+            );
+          }
+
+          [...response.results].forEach((product) => {
+            $('#product-list-container').append(templateProductsList(product));
+          });
+        },
+      });
+    };
+
+    if (params.cat) {
+      ajaxGetListProducts(
+        `{% url "ApiProducts:products_filter_category" %}?id=${params.cat}&page=${
+          params.page || 1
+        }`
+      );
+    } else if (params.subcat2) {
+      ajaxGetListProducts(
+        `{% url "ApiProducts:products_filter_sub_category2" %}?id=${
+          params.subcat2
+        }&page=${params.page || 1}`
+      );
+    } else {
+      ajaxGetListProducts(
+        `{% url "ApiProducts:products_list" %}?page=${params.page || 1}`
+      );
+    }
+  </script>
+
+  <script>
+    const templateNewProducts = ({
+      title,
+      main_image,
+      id,
+      slug,
+      score,
+      discounted_price,
+      price,
+    }) => {
+      const productLink = `{% url "products:product_detail_page" %}${id}/${slug}/`;
+      return `
+        <li class="splide__slide">
+          <div class="product-box">
+              <div class="image-parent">
+                  <a href="${productLink}" class="s100-image-container">
+                      <img class="image s100-image" src="${main_image}" alt="${title}">
+                  </a>
+              </div>
+              <div class="details">
+
+                  <a href="${productLink}">
+                      <h2>${title}</h2>
+                  </a>
+                  <div class="rate">
+                    ${'<i class="fa fa-star"></i>'.repeat(score)}
+                      
+                  </div>
+                  ${
+                    discounted_price
+                      ? `<div class="price"><del>${price}T</del></div>`
+                      : `<div class="price">${price}T</div>`
+                  }
+                  ${
+                    discounted_price
+                      ? `<div class="price">${discounted_price}T</div>`
+                      : ``
+                  }
+              </div>
+          </div>
+        </li>
+        `;
+    };
+
+    // best-products
+    $.ajax({
+      url: '{% url "ApiProducts:products_bestselling" %}',
+      type: 'get',
+      success: (response) => {
+        [...response.results].forEach((product) => {
+          $('#best-products').append(templateNewProducts(product));
+        });
+      },
+    });
+
+    // discounts
+    $.ajax({
+      url: '{% url "ApiProducts:products_discounts" %}',
+      type: 'get',
+      success: (response) => {
+        [...response.results].forEach((product) => {
+          $('#discounts-products').append(templateNewProducts(product));
+        });
+      },
+    });
+
+    // new
+    $.ajax({
+      url: '{% url "ApiProducts:products_newest" %}',
+      type: 'get',
+      success: (response) => {
+        [...response.results].forEach((product) => {
+          $('#new-products').append(templateNewProducts(product));
+        });
+      },
+    });
+  </script>
+
+  <script src="{% static 'js/splide-3.6.12/dist/js/splide.js' %}"></script>
+  <!-- <script src="{% static 'js/index.js' %}"></script> -->
+  <script src="{% static 'js/products.js' %}"></script>
+  <!-- <script
+  src="https://kit.fontawesome.com/c2e98ef1bc.js"
+  crossorigin="anonymous"
+></script> -->
+  {% endblock %}
+</div>

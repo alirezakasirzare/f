@@ -1,0 +1,6 @@
+Django
+djangorestframework
+Pillow
+requests
+zeep
+aiohttp

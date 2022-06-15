@@ -1,0 +1,170 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>چت</title>
+
+    <!-- axios -->
+    <script src="{% static 'js/axios.min.js' %}"></script>
+
+    <!-- style -->
+    <link rel="stylesheet" href="{% static 'style/fontiran.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/chat.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'fonts/import-webfont/fs-min.css' %}"
+    />
+  </head>
+  <body>
+    <!-- person info -->
+    <header class="chat-header">
+      <div class="container">
+        <div class="header-info-chat">
+          <div class="header-person">
+            <span class="person-name">چت</span>
+          </div>
+          <div class="ping">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- chat -->
+    <main class="container chat-container">
+      <div id="content"></div>
+    </main>
+
+    <!-- input send message -->
+    <div class="chat-form">
+      <form action="#" class="container form-chat-container" id="send-message">
+        <div class="form-chat-control">
+          <!-- create pay link -->
+          <button
+            data-modal="#pay-modal"
+            class="btn-icon btn-icon-light"
+            type="button"
+            id="chat-btn-create-pay-link"
+          >
+            <i class="fas fa-plus-circle"></i>
+          </button>
+          <!-- inputes -->
+          <input
+            type="text"
+            class="chat-input"
+            placeholder="نوشتن پیام"
+            id="chat-input-send"
+            autocomplete="off"
+          />
+          <input type="file" class="chat-input-file" id="chat-input-file" />
+
+          <!-- send message -->
+          <button
+            class="btn-icon btn-icon-light fade hidden"
+            type="submit"
+            id="chat-btn-send"
+          >
+            <img
+              src="{% static 'icons/send.svg' %}"
+              alt="send"
+              class="btn-icon-image"
+            />
+          </button>
+
+          <!-- choose file -->
+          <button
+            class="btn-icon btn-icon-light fade"
+            type="button"
+            id="chat-btn-file"
+          >
+            <i class="fal fa-link"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- pay modal -->
+    <div class="modal-wrapper" id="pay-modal">
+      <div class="modal">
+        <!-- header -->
+        <div class="modal-header">
+          <h5>ایجاد لینک پرداخت</h5>
+          <button class="btn-close" data-close="#pay-modal">
+            <i class="fal fa-times"></i>
+          </button>
+        </div>
+
+        <!-- body -->
+        <div class="modal-body">
+          <!-- form -->
+          <form action="#" id="pay-form">
+            <div class="form-control">
+              <label for="input-pay" class="form-label">قیمت</label>
+              <input
+                type="text"
+                id="input-pay"
+                class="form-input ltr"
+                placeholder="400000"
+              />
+            </div>
+
+            <!-- alert -->
+            <div class="alert alert-warning">قیمت را به تومان وارد کنید</div>
+
+            <!-- submit -->
+            <div class="center">
+              <button type="submit" class="btn btn-primary" id="pay-btn-submit">
+                ایجاد لینک
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <button
+      data-modal="#pay-link-modal"
+      id="open-result-pay-link"
+      style="display: none"
+    >
+      hidden
+    </button>
+
+    <!-- pay link -->
+    <div class="modal-wrapper" id="pay-link-modal">
+      <div class="modal">
+        <!-- header -->
+        <div class="modal-header">
+          <h5>لینک با موفقیت ساخته شد</h5>
+          <button class="btn-close" data-close="#pay-link-modal">
+            <i class="fal fa-times"></i>
+          </button>
+        </div>
+
+        <!-- body -->
+        <div class="modal-body">
+          <div class="form-control">
+            <label for="input-pay-link" class="form-label">لینک پرداخت</label>
+            <input
+              type="text"
+              id="input-pay-link"
+              class="form-input ltr"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- js -->
+    <script src="{% static 'js/chat/chat-ui.js' %}"></script>
+    <script src="{% static 'js/chat/chat-servicepanel.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--styles-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'style/register.css' %}" />
+    <!-- <link rel="stylesheet" href="./asset/style/user_panel_style.css" /> -->
+    <link rel="stylesheet" href="{% static 'style/new_style.css' %}" />
+     <link rel="stylesheet" href="{% static 'style/message.css' %}" />
+
+
+    <!--/styles-->
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    <div class="main-content">
+
+        <div class="login-box">
+            <div class="login-main-icon"></div>
+            <div class="bot-login">
+                <form method="post" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="login-border">
+                        <h3 class="login-title">فرم ثبت نام</h3>
+                        <div>
+                            <p>اسم کامل</p>
+                            {{ form.fullname }}
+                        </div>
+                        <div>
+                            <p>شماره موبایل</p>
+                            {{ form.phone }}
+                        </div>
+                        <div>
+                            <p>عکس پروفایل</p>
+                            {{ form.image }}
+                        </div>
+                        <div>
+                            <p>آدرس</p>
+                            {{ form.address }}
+                        </div>
+                        <div>
+                            <p>جنسیت</p>
+                            {{ form.gender }}
+                        </div>
+
+                        <div>
+                            <p>گذرواژه</p>
+                            {{ form.password }}
+                        </div>
+
+
+                        <button class="login-btn">ثبت نام</button>
+                    </div>
+                </form>
+                <p class="login-a">عضو سایت هستید <a href="/accounts/login/">ورود</a> کنید</p>
+            </div>
+        </div>
+
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                <div id="snackbar" {% if message.tags %} onclick="message({{ message.tags }},{{ message }})" class="massage {{ message.tags }}"{% endif %}>
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+
+    <script src="{% static 'js/message.js' %}"></script>
+
+
+</body>
+
+
+</html>

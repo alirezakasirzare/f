@@ -1,0 +1,387 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--styles-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'style/new_style.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/services_panel_style.css' %}">
+    <link rel="stylesheet" href="{% static 'style/products.css' %}">
+
+    <!-- <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css' %}"> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <!-- axios -->
+    <script src="{% static 'js/axios.min.js' %}"></script>
+
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"
+  ></script>
+  
+    <!--/styles-->
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    <!--header-->
+    {% include 'base/menu/menu.html' %}
+
+
+
+    <!--script-->
+    <div class="all-panels">
+
+        <div class="panel">
+            <div class="panels">
+
+                <p>پنل خدمات</p>
+                <div class="panels-icon"></div>
+
+            </div>
+            <div class="panels-details" onclick="SelectPanel(1)">
+                <div class="edit-prof-icon"></div>
+                <p>ویرایش حساب کاربری</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(2)">
+                <div class="product-add-icon"></div>
+                <p>افزودن خدمات</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(3)">
+                <div class="product-list-icon"></div>
+                <p>لیست خدمات</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(4)">
+                <div class="complaint-icon"></div>
+                <p>شکایات</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(5)">
+                <div class="comments-icon"></div>
+                <p>نظرات</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(6)">
+                <div class="chart-icon"></div>
+                <p> انتخاب نمودار</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(7)">
+                <div class="clientele-icon"></div>
+                <p>خدمات انجام شده</p>
+            </div>
+                        <div class="panels-details" onclick="SelectPanel(8)">
+                <div class="chart-icon"></div>
+                <p> چت</p>
+            </div>
+            <div class="panels-details" onclick="exit(1)">
+                <div class="exit-icon"></div>
+                <p>خروج</p>
+            </div>
+        </div>
+
+        <div class="panel-details">
+            <div class="panels-two">
+                <p>پنل خدمات</p>
+            </div>
+            <div class=" services-panel-lengh services-account">
+                <div class="services-panel-title">
+                    <p>حساب کاربری</p>
+                </div>
+                <div>
+                    <div class="acc-inputs"><input class="services-panel-inp" type="text" id="info-fullname-input" placeholder="نام و نام خانوادگی"></div>
+                </div>
+                <div class="acc-inputs">
+                    <div><input class="services-panel-inp" id="info-phone-input" type="text" placeholder="شماره تماس"></div>
+                </div>
+                <div class="acc-inputs">
+                    <div><input class="services-panel-inp" id="info-password-input" type="number" placeholder="رمز عبور جدید"></div>
+                </div>
+                <div class="acc-btn"><button type="button" id="btn-update-user-info">ویرایش</button></div>
+            </div>
+
+            <div class="services-panel-lengh add-services">
+                <div class="services-panel-title">
+                    <p>افزودن خدمات</p>
+                </div>
+                <div class="add-details">
+                    <div class="add-details-div">
+                        <label for="add-service-image" style="margin-left: 5px;">عکس</label>
+                        <input type="file" id="add-service-image" accept="image/png, image/jpg, image/jpeg">
+                    </div>
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-service-title" type="text" placeholder="نام خدمات"></div>
+                    </div>
+                    <div class="acc-inputs">
+                        <div class="acc-inputs">
+                            <textarea placeholder="توضیحات" id="add-service-description" ></textarea>
+                        </div>
+                    </div>
+                    <div class="acc-inputs">
+                        <div class="acc-inputs">
+                            <textarea placeholder="توضیحات کوچک" id="add-service-short-description" ></textarea>
+                        </div>
+                    </div>
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" type="text" id="add-service-category" placeholder="دسته بندی"></div>
+                    </div>
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" type="text" id="add-service-company" placeholder="شرکت"></div>
+                    </div>
+                    
+                    <div class="add-btn"><button type="button" id="btn-add-service">افزودن</button></div>
+                </div>
+
+            </div>
+            <div class="services-panel-lengh list-products">
+                <div class="services-panel-title">
+                    <p>لیست خدمات</p>
+                </div>
+
+                <div class="all-forosh-tablet" id="mobile-services-list-content">
+
+    
+
+
+                </div>
+                <div class="all-forosh-pc">
+                    <div class="top-table">
+                        <div>
+                            <p>#</p>
+                        </div>
+                        <div>
+                            <p>تصویر</p>
+                        </div>
+                        <div>
+                            <p>نام محصول</p>
+                        </div>
+
+                        <div>
+                            <p>تاریخ</p>
+                        </div>
+                        <div>
+                            <p>ویرایش</p>
+                        </div>
+                    </div>
+                    <div id="services-list-content">
+
+                    </div>
+
+                </div>
+
+                <button
+                data-modal="#edit-service-modal"
+                type="button"
+                id="lunch-edit-service-modal"
+                style="display: none;"
+            ></button>
+            <div class="modal-wrapper" id="edit-service-modal">
+            <div class="modal">
+              <!-- header -->
+              <div class="modal-header">
+                <h5>ویرایش یک خدمات</h5>
+
+                <button class="btn-close" data-close="#edit-service-modal">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+      
+              <!-- body -->
+              <div class="modal-body">
+                <!-- name -->
+                <form action="#" id="pay-form">
+                  <div class="form-control">
+                    <label for="input-title-edit-service" class="form-label">نام خدمات</label>
+                    <input
+                      type="text"
+                      id="input-title-edit-service"
+                      class="form-input"
+                    />
+                  </div>
+
+               
+
+                  <div class="form-control">
+                    <label for="input-description-edit-service" class="form-label">توضیحات</label>
+                    <textarea
+                      type="text"
+                      id="input-description-edit-service"
+                      class="form-input"
+                    ></textarea>
+                  </div>
+
+
+                  <div class="form-control">
+                    <label for="input-category-edit-service" class="form-label">دسته بندی</label>
+                    <input
+                      type="text"
+                      id="input-category-edit-service"
+                      class="form-input"
+                    />
+                  </div>
+
+        
+                  <div class="form-control">
+                    <label for="input-company-edit-service" class="form-label">شرکت</label>
+                    <input
+                      type="text"
+                      id="input-company-edit-service"
+                      class="form-input"
+                    />
+                  </div>
+      
+
+                  <!-- submit -->
+                  <div class="center">
+                    <button type="button" class="btn btn-primary" id="btn-update-service" onclick="editServiceSubmit()">
+                      ویرایش خدمات
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+            </div>
+
+            <div class="services-panel-lengh complaint-page">
+                <div class="services-panel-title">
+                    <p>شکایات </p>
+                </div>
+                <div id="complaints-content"></div>
+    
+
+            </div>
+            <div class="services-panel-lengh comment-box">
+                <div class="services-panel-title">
+                    <p>نظرات</p>
+                </div>
+                <div id="comments-content"></div>
+
+
+
+            </div>
+
+
+
+            <div class="services-panel-lengh clientele-page">
+
+                    <div class="services-panel-title">
+                        <p> انتخاب نمودار</p>
+                    </div>
+
+
+
+
+                    <div style="margin-bottom: 30px;">
+                        <p class="chart-txt">نمودار فروش روزانه </p>
+                        <canvas id="service-chart-day" style="width:100%;"></canvas>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <p class="chart-txt">نمودار فروش هفته ای</p>
+                        <canvas id="service-chart-week" style="width:100%;"></canvas>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <p class="chart-txt">نمودار فروش ماهانه</p>
+                        <canvas id="service-chart-month" style="width:100%;"></canvas>
+                    </div>
+
+                    <div >
+                        <p class="chart-txt">نمودار فروش سالانه</p>
+                        <canvas id="service-chart-year" style="width:100%;"></canvas>
+                    </div>
+
+
+                    
+        </div>
+
+        <!-- doned services  -->
+        <div class="services-panel-lengh clientele-page">
+            <div class="services-panel-title">
+                <p>لیست خدمات انجام شده</p>
+            </div>
+
+            <div class="all-forosh-tablet" id="service-orders-list-content">
+                
+            </div>
+            <div class="all-forosh-pc">
+                <div class="top-table">
+
+                    <div>
+                        <p>خدمات</p>
+                    </div>
+
+                    <div>
+                        <p>نام مشتری</p>
+                    </div>
+
+                    <div>
+                        <p>تاریخ</p>
+                    </div>
+                </div>
+                <div id="table-service-orders-list-content">
+
+                </div>
+
+            </div>
+        </div>
+        
+        <!--*** chat ***-->
+        <div class="services-panel-lengh clientele-page">
+
+   
+                <div class="services-panel-title">
+                    <p> چت</p>
+                </div>
+                <form action="./chatlist" method="GET">
+
+                <div class="acc-btn">
+                    <button>ورود به صفحه چت</button>
+                </div>
+                </form>
+
+        </div>
+        </div>
+        <div id="qu-two-on" class="question-box-two qu-two-on">
+            <div class="close-icon" onclick="exit(2)"></div>
+            <div class="close-icon-big"></div>
+            <p>آیا مطمئن هستید میخواهید خارج شوید</p>
+            <div class="question-btn">
+                <button class="yes-btn" type="submit">بله</button>
+                <button class="no-btn" type="submit" onclick="exit(2)">خیر</button>
+            </div>
+        </div>
+
+
+                        <!-- feedback modal -->
+                        <button
+                        data-modal="#feedback-modal"
+                        type="button"
+                        id="lunch-feedback"
+                        style="display: none"
+                       ></button>
+                      <div class="modal-wrapper" id="feedback-modal">
+                        <div class="modal">
+                          <!-- header -->
+                          <div class="modal-header">
+                            <h5>نتیجه درخواست</h5>
+                            <button class="btn-close" data-close="#feedback-modal">
+                              <i class="fa fa-times"></i>
+                            </button>
+                          </div>
+      
+                          <!-- body -->
+                          <div class="modal-body" id="feedback"></div>
+                        </div>
+                    </div>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/services-panel.js' %}"></script>
+        <script src="{% static 'js/api/servicepanel.js' %}"></script>
+        <script src="{% static 'js/chat/chat-ui.js' %}"></script>
+</body>
+
+
+</html>

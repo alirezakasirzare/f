@@ -1,0 +1,262 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block keywords %}
+    {{ article.keywords }}
+{% endblock %}
+{% block description %}
+    {{ article.short_description }}
+{% endblock %}
+
+{% block content %}
+
+<div id="header-article" class="header-article"></div>
+<div class="all-article">
+  <div id="discription"></div>
+
+  <div class="article-bott">
+    <div class="article-likes">
+      <div class="likes">
+        <button class="share-btn">
+          <i class="fas fa-share-alt sh-btn"></i>
+        </button>
+      </div>
+      <div id="likenumer" class="likes">
+        <div class="container-heart" onclick="likePost()">
+          <i class="far fa-heart js-heart heart"></i>
+        </div>
+      </div>
+      <div id="commentnumer" class="likes">
+        <div class="icon-bot"></div>
+      </div>
+    </div>
+
+    <div id="article-tags" class="article-tags">
+      <div class="tags-title">
+        <p class="article-title-p">برچسب ها :</p>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div id="share-options" class="share-options">
+      <p class="title">share</p>
+      <div class="social-media">
+        <button class="social-media-btn">
+          <i class="far fa-folder-open"></i>
+        </button>
+        <button class="social-media-btn">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+        <button class="social-media-btn">
+          <i class="fab fa-instagram"></i>
+        </button>
+        <button class="social-media-btn"><i class="fab fa-twitter"></i></button>
+        <button class="social-media-btn">
+          <i class="fab fa-facebook-f"></i>
+        </button>
+        <button class="social-media-btn">
+          <i class="fab fa-linkedin-in"></i>
+        </button>
+      </div>
+      <div class="link-container">
+        <p class="link">https://example.com/share</p>
+        <button class="copy-btn" id="copy">copy</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h3>ثبت دیدگاه جدید</h3>
+    <p>شما هم درباره این کالا دیدگاه ثبت کنید</p>
+
+    <div class="name-comm2">
+      <input
+        id="form-text"
+        type="text"
+        placeholder="متن پیام"
+        name="text-msg"
+      />
+    </div>
+    <button onclick="sendData()" class="comments-btn" type="submit">
+      ارسال نظر
+    </button>
+  </div>
+  <div id="snackbar" class=""></div>
+  <div id="comments" class="comments">
+    <!--1-->
+
+    <!--2-->
+  </div>
+</div>
+<script>
+  //========================= article detail data ====================
+  var likeNum;
+
+  function getDetails() {
+    $.ajax({
+      url: '{% url "ApiArticles:articles_detail" %}?id={{ article.id }}&slug={{ article.slug }}',
+      type: 'get',
+      success: (response) => {
+        $('#header-article').html(`
+                            <img class="header-article-img" src="${response.results[0].image}" alt="">
+                            <div class="header-article-details">
+                                <p class="header-article-details-p-t">${response.results[0].title}</p>
+                                <p class="header-article-details-p">${response.results[0].short_description}</p>
+                                <div class="header-text">
+                                    <div class="header-text-d">
+                                        <div class="article-icon art-ic1" ></div>
+                                        <p class="article-icon-text">${response.results[0].writer_fullname}</p>
+                                    </div>
+                                    <div class="header-text-d">
+                                        <div class="article-icon art-ic2"></div>
+                                        <p class="article-icon-text">${response.results[0].jdate}</p>
+                                    </div>
+                                    <div class="header-text-d">
+                                        <div class="article-icon art-ic3" ></div>
+                                        <p id="articles-hits" class="article-icon-text"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+        $('#discription').html(
+          `<p class="txt-dis">${response.results[0].description}</p>`
+        );
+
+        $('#article-tags').append(`
+                        ${response.results[0].labels.map((item) => {
+                          return ` <div class="tags">
+                                <a href="/articles/${item}/">${item} </a>
+                            </div>`;
+                        })}
+                           
+                            `);
+      },
+
+      error: (err) => {},
+    });
+    $.ajax({
+      url: '{% url "ApiArticles:articles_hits_number" %}',
+      headers: {
+        Authorization: 'Token {{ token }}',
+      },
+      type: 'get',
+      success: (response) => {
+        $('#articles-hits').html(response.number);
+      },
+      error: (err) => {},
+    });
+    $.ajax({
+      url: '{% url "ApiArticles:articles_like_number" %}',
+      headers: {
+        Authorization: 'Token {{ token }}',
+      },
+      type: 'get',
+      success: (response) => {
+        $('#likenumer').append(
+          `<p class="likes-number">${response.number}</p>`
+        );
+      },
+      error: (err) => {},
+    });
+    $.ajax({
+      url: '{% url "ApiArticles:articles_comment_number" %}',
+      headers: {
+        Authorization: 'Token {{ token }}',
+      },
+      type: 'get',
+      success: (response) => {
+        $('#commentnumer').append(
+          `<p class="likes-number">${response.number}</p>`
+        );
+      },
+      error: (err) => {},
+    });
+  }
+
+  getDetails();
+
+  //========================= article detail data ====================
+
+  // setLabels()
+  function sendData() {
+    let txt = $('#form-text').val();
+    $.ajax({
+      url: '{% url "ApiArticles:articles_comment_add" %}',
+      type: 'post',
+      headers: {
+        Authorization: 'Token {{ token }}',
+      },
+      data: {
+        article: {{ article.id }},
+        comment: txt,
+      },
+      success: (res) => {
+        if (txt == '') {
+          message('error', 'متن پیام را وارد کنید');
+          return;
+        } else {
+          message('sucsses', 'ارسال شد');
+        }
+      },
+      error: (err) => {
+        message('error', 'شما قبلا یک دیدگاه ثبت کرده اید');
+      },
+    });
+  }
+  function likePost() {
+    $('.heart').addClass('fas');
+    $.ajax({
+      url: '{% url "ApiArticles:articles_like_add" %}',
+      type: 'post',
+      headers: {
+        Authorization: 'Token {{ token }}',
+      },
+      data: {
+        article: 1,
+        // comment: txt,
+      },
+      success: (res) => {
+        if (res.message == 'created') message('sucsses', res.message);
+        if (res.message == 'has been created') message('error', res.message);
+      },
+      error: (err) => {
+        message('error', 'ارسال نشد');
+      },
+    });
+  }
+  function getComents() {
+    $.ajax({
+      url: '{% url "ApiArticles:articles_comment_list" %}?id={{ article.id }}',
+      success: (res) => {
+        $('#comments').append(`
+                    <div class="comment1">
+                        <div class="top-comment">
+                            <div class="profile">
+                                <div>
+                                    <img class="prof-pic" src="${res.results[0].user_image}" alt="">
+                                </div>
+                                <div class="name-prof">
+                                    <p>${res.results[0].user_fullname}</p>
+                                </div>
+                            </div>
+                            <div class="date">
+                                <p> ${res.results[0].date}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p> ${res.results[0].comment}</p>
+                        </div>
+                    </div>
+                `);
+      },
+      error: (err) => {
+        console.log('wwwww', err);
+      },
+    });
+  }
+  getComents();
+</script>
+<script src="{% static 'js/message.js' %}"></script>
+{% endblock %}

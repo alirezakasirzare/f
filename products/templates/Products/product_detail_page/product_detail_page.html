@@ -1,0 +1,427 @@
+{% extends 'base/base.html' %} {% load static %} {% block title %} {{ title }}
+{% endblock %} {% block content %}
+
+<div class="content-top">
+  <section id="slider" class="main-box">
+    <div class="containerdetails">
+      <div style="display: flex" class="main-box-slider">
+        <div class="nxt-btnditails" onclick="plusSlides(1)">
+          <div class="nxt-btnditails-img"></div>
+        </div>
+
+        <div class="carousel-item fade">
+          <img class="slide-imgditils" alt="..." id="big-image1" />
+        </div>
+        <div class="carousel-item fade">
+          <img class="slide-imgditils" alt="..." id="big-image2" />
+        </div>
+
+        <div class="pre-btnditails" onclick="plusSlides(-1)">
+          <div class="pre-btnditails-img"></div>
+        </div>
+      </div>
+      <div class="all-dot-btnditails">
+        <button
+          type="button"
+          class="dot-btndetails slide-activedetails"
+          onclick="currentSlideDetails(1)"
+        >
+          <img class="slidedetails" id="big-other-image1" alt="..." />
+        </button>
+        <button
+          style="margin-top: 5px"
+          type="button"
+          class="dot-btndetails"
+          onclick="currentSlideDetails(2)"
+        >
+          <img class="slidedetails" id="big-other-image2" alt="..." />
+        </button>
+      </div>
+    </div>
+    <div class="form-left-box">
+      <ol>
+        <li class="form-item">
+          <div class="div-style" id="main-title-pro"></div>
+          <div
+            style="direction: ltr; margin-top: 25px"
+            class="detailsrate div-style"
+            id="rate-pro"
+          ></div>
+        </li>
+
+        <li class="form-item form-item-new">
+          <div class="div-style div-style-newres">
+            <h4 class="div-style-h">رنگ</h4>
+            <select id="products-color" class="form-input"></select>
+          </div>
+
+          <div class="div-style div-style-newres">
+            <h4 class="div-style-h">سایز</h4>
+            <select id="products-size" class="form-input"></select>
+          </div>
+        </li>
+
+        <li class="form-item">
+          <div class="div-style">
+            <div class="form-item-cout">
+              <div class="item-count">
+                <p onclick="plus()" id="cunt-plus" class="cunt-div">+</p>
+              </div>
+              <div class="item-count">
+                <p id="counter" class="cunt-div">1</p>
+              </div>
+              <div class="item-count">
+                <p onclick="minus()" id="cunt-min" class="cunt-div">-</p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="direction: ltr"
+            class="div-style div-style-title"
+            id="price-pro-detail"
+          ></div>
+        </li>
+
+        <li>
+          <div class="pro-btn2">
+            <button
+              class="form-btn2"
+              type="button"
+              id="add-product-to-card-button"
+            >
+              افزودن به سبد خرید
+            </button>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+</div>
+<section class="ttttttttttttttt">
+  <div class="tabs-main">
+    <input type="radio" name="tabs-main" id="tabone" checked="checked" />
+    <label class="tabs-main-part" for="tabone">
+      <div class="tabs-main-res-label">معرفی</div></label
+    >
+    <div class="tab detailstabcontent" id="detailstabcontent-one">ss</div>
+    <input type="radio" name="tabs-main" id="tabtwo" />
+    <label class="tabs-main-part" for="tabtwo">
+      <div class="tabs-main-res-label">جزئیات</div>
+    </label>
+    <div class="tab detailstabcontent" id="detailstabcontent-two"></div>
+    <input type="radio" name="tabs-main" id="tabthree" />
+    <label class="tabs-main-part" for="tabthree">
+      <div class="tabs-main-res-label">فرشنده</div>
+    </label>
+    <div class="tab detailstabcontent" id="detailstabcontent-three">
+      <!-- <h3> فرشنده</h3> -->
+    </div>
+    <input type="radio" name="tabs-main" id="tabfour" />
+    <label class="tabs-main-part" for="tabfour">
+      <div class="tabs-main-res-label">نظرات</div>
+    </label>
+    <div class="tab detailstabcontent">
+      <div class="comment-list-product" id="products-comment-list"></div>
+
+      <div class="tab-div-m">
+        <h4 style="color: #f26a4f">ثبت دیدگاه جدید</h4>
+        <p>شما هم درباره این کالا دیدگاه ثبت کنید</p>
+        <div class="form-details">
+          <!-- <ol> -->
+          <li class="form-item-details">
+            <div style="width: 100%">
+              <textarea
+                class="form-input-textarea2"
+                placeholder="متن پیام"
+                name="textarea-input"
+                rows="5"
+                cols="50"
+                id="comment-text-input"
+              ></textarea>
+            </div>
+          </li>
+          <div class="detailstabdiv3"></div>
+          <div class="pro-btn22">
+            <button id="add-comment-to-product" class="form-btn" type="button">
+              ارسال نظر
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<h1 class="title1" id="title-slider-products-two">محصولات مشابه</h1>
+<div class="splide" id="slider4" dir="ltr">
+  <div class="splide__track">
+    <ul class="splide__list" id="slider-three"></ul>
+  </div>
+</div>
+<div id="snackbar" class=""></div>
+
+<!-- feedback modal -->
+<button
+  data-modal="#feedback-modal"
+  type="button"
+  id="lunch-feedback"
+  style="display: none"
+></button>
+<div class="modal-wrapper" id="feedback-modal">
+  <div class="modal">
+    <!-- header -->
+    <div class="modal-header">
+      <h5>نتیجه درخواست</h5>
+      <button class="btn-close" data-close="#feedback-modal">
+        <i class="fa fa-times"></i>
+      </button>
+    </div>
+
+    <!-- body -->
+    <div class="modal-body" id="feedback"></div>
+  </div>
+</div>
+
+<script>
+  //========================= article detail data ====================
+  var likeNum;
+  var productDetUrl;
+  var urlPage = window.location.pathname;
+  var substrings = urlPage.split('/');
+  var idMain = substrings[3];
+  var slugMain = substrings[4];
+  var detailsProductUrl =
+    '{% url "ApiProducts:products_detail" %}?id=' + idMain + '&slug=' + slugMain;
+  var SliderUrlPDetail = '{% url "ApiProducts:products_similar" %}?id=' + idMain;
+  // var nextbtnURL = '/api/products/products-next/?id=' + idMain;
+  // var prevbtnURL = '/api/products/products-previous/?id=' + idMain;
+  // var NumberRateUrl = '/api/products/products-score-number/?id=' + idMain;
+  // var CommentProUrl = '/api/products/products-comments-list/?id=' + idMain;
+  // var personalRateUrl = '/api/products/products-score-search/?id=' + idMain;
+  var addComment = '{% url "ApiProducts:products_comments_add" %}?id=' + idMain;
+  var addScore = '{% url "ApiProducts:product_score_add" %}?id=' + idMain;
+  const getCatName2 = (obg) => {
+    return obg[Object.keys(obg)[0]];
+  };
+  const getCatKey2 = (obg) => {
+    return Object.keys(obg)[0];
+  };
+
+  function getDetails() {
+    $.ajax({
+      url: detailsProductUrl,
+      type: 'get',
+      success: (response) => {
+        var ResulteDetailPro = [];
+        ResulteDetailPro.push(response.results);
+        var sizePro = ResulteDetailPro[0][0].sizes_info;
+        var ColorPro = ResulteDetailPro[0][0].colors_info;
+        // console.log(ResulteDetailPro[0][0].image1);
+        $('#big-image1').prop('src', ResulteDetailPro[0][0].image1);
+        $('#big-image2').prop('src', ResulteDetailPro[0][0].image2);
+        $('#big-other-image1').prop('src', ResulteDetailPro[0][0].image1);
+        $('#big-other-image2').prop('src', ResulteDetailPro[0][0].image2);
+
+        $('#main-title-pro').html(`
+                    <h2 class="form-item-title">${ResulteDetailPro[0][0].title}</h2>
+                        `);
+        sizePro.forEach((item) => {
+          $('#products-size').append(`
+                    <option class="div-text" value="${getCatKey2(
+                      item
+                    )}">${getCatName2(item)}</option>
+                        `);
+        });
+        ColorPro.forEach((item) => {
+          $('#products-color').append(`
+                        <option value="${getCatKey2(item)}">${getCatName2(
+            item
+          )}</option>
+                        `);
+        });
+
+        $('#detailstabcontent-one').html(`
+                            <p class="textOfProduct">${ResulteDetailPro[0][0].description}</p>
+                        `);
+        $('#price-pro-detail').html(`
+                    <h2 style="color:#F26A4F" class="price-pro-detail1">${ResulteDetailPro[0][0].price}تومان</h2>
+                        `);
+        if (ResulteDetailPro[0][0].discounted_price !== null) {
+          $('#price-pro-detail').append(`
+                            <h2 style="color:#F26A4F" class="price-pro-detail12">${ResulteDetailPro[0][0].discounted_price}تومان</h2>
+                        `);
+        }
+        // console.log(ResulteDetailPro[0][0]);
+        $('#detailstabcontent-two').html(`
+                            <div class="detailstabdiv">
+                                 <p class="detailstabp">ابعاد</p>
+                                 <p class="detailstabp">${ResulteDetailPro[0][0].sizes.join(
+                                   ' - '
+                                 )}</p>
+                            </div>
+                            <div class="detailstabdiv">
+                <p class="detailstabp">وزن</p>
+                <p class="detailstabp">${ResulteDetailPro[0][0].weight}</p>
+            </div>
+            <div class="detailstabdiv">
+                <p class="detailstabp">تعداد</p>
+                <p class="detailstabp">${ResulteDetailPro[0][0].inventory}</p>
+            </div>
+            <div class="detailstabdiv">
+                <p class="detailstabp">امتیاز</p>
+                <p class="detailstabp">${ResulteDetailPro[0][0].score}</p>
+            </div>
+
+                        `);
+      },
+
+      error: (err) => {},
+    });
+  }
+  getDetails();
+
+  //=======================END nextbtn ===================
+
+  //========================= product detail data ====================
+
+  // setLabels()
+  function sendCommentData(addComment) {
+    let txt = $('#product-idea-textBox').val();
+    var scores = document.querySelectorAll('[name="rating"]:checked').val;
+    $.ajax({
+      url: addComment,
+      type: 'post',
+      headers: {
+        Authorization: 'Token {{ token }}',
+      },
+      data: {
+        comment: txt,
+      },
+      success: (res) => {
+        if (txt == '') {
+          message('error', 'متن پیام را وارد کنید');
+          return;
+        } else {
+          message('sucsses', res.message);
+        }
+      },
+      error: (err) => {},
+    });
+    $.ajax({
+      url: addScore,
+      type: 'post',
+      headers: {
+        Authorization: 'Token {{ token }}',
+      },
+      data: {
+        score: scores,
+      },
+      success: (res) => {
+        message('sucsses', res.message);
+      },
+      error: (err) => {
+        message('addScoreError', err);
+      },
+    });
+  }
+  $('#form-comment-btn').on('click', function () {
+    sendCommentData(addComment);
+  });
+
+  function ProductSliderTwo(SliderUrlPDetail) {
+    $.ajax({
+      url: SliderUrlPDetail,
+      type: 'get',
+
+      success: (response) => {
+        var newresultSliderTwo = [];
+        newresultSliderTwo.push(response.results);
+        if (newresultSliderTwo.length == 0) {
+          $('#title-slider-products-two').css('display', 'none');
+          $('#slider4').css('display', 'none');
+        }
+        var countertwoLimit = response.results;
+        var countertwo = countertwo + 1;
+        $('#slider-three').html(``);
+        newresultSliderTwo[0].forEach((element) => {
+          morebtn = '/products/detail/' + element.id + '/' + element.slug + '/';
+          $('#slider-three').append(`
+          <li class="splide__slide">
+            <div class="product-box">
+              <div class="image-parent">
+                <a href="${morebtn}">
+                  <img
+                    class="image"
+                    src="${element.main_image}"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div class="details">
+                <a href="${morebtn}">
+                  <h2>${element.title}</h2>
+                </a>
+              </div>
+            </div>
+          </li>
+        `);
+          if (countertwo == countertwoLimit.length - 1) {
+            countertwo = -1;
+          }
+          if (element.percentage !== 0) {
+            $('#token-hori-slider2').append(
+              `<span class="token-vert-slider">${element.percentage}</span>`
+            );
+          }
+          if (element.discounted_price !== 0) {
+            $('.details-slider2').append(
+              ` <div class="sec-price">${element.discounted_price}T</div>`
+            );
+          }
+        });
+      },
+      error: (err) => {},
+    });
+  }
+  ProductSliderTwo(SliderUrlPDetail);
+
+  //======================= END productDetail Slider ====================
+</script>
+
+<script>
+  $.ajax({
+    url: '{% url "ApiProducts:products_comments_list" %}' + '?id=' + idMain,
+    type: 'get',
+    success: (response) => {
+      [...response.results].forEach((comment) => {
+        $('#products-comment-list').append(`
+              <div class="detailstabdiv3">
+                <img class="profileimg" src="${
+                  comment.user_image ||
+                  'https://digi1store.com/images/avatar.jpg'
+                }" />
+                <div class="detailstabdiv22">
+                  <p>${comment.user_title}</p>
+                  <p>${comment.jdate}</p>
+                  <p>
+                    ${comment.comment}
+                  </p>
+                </div>
+              </div>
+            `);
+      });
+    },
+  });
+</script>
+
+<script src="{% static 'js/splide-3.6.12/dist/js/splide.js' %}"></script>
+<script src="{% static 'js/chat/chat-ui.js' %}"></script>
+
+<!-- <script src="{% static 'js/index.js' %}"></script> -->
+<script src="{% static 'js/details-product.js' %}"></script>
+<!-- <script
+  src="https://kit.fontawesome.com/c2e98ef1bc.js"
+  crossorigin="anonymous"
+  ></script> -->
+<script src="{% static 'js/api/product-detail.js' %}"></script>
+{% endblock %}

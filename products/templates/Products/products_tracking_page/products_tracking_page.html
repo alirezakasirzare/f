@@ -1,0 +1,73 @@
+{% extends 'base/base.html' %} {% load static %} {% block title %} {{ title }}
+{% endblock %} {% block content %}
+
+<!--header-->
+<div class="background-tracking">
+  <div class="main-tracking-title">پیگیری سفارشات</div>
+  <div class="all-details-top-tracking">
+    <div class="big-img-tracking"></div>
+    <div class="top-details-tracking">
+      <p class="top-details-tracking-text">کد رهگیری محصول خود را وارد کنید:</p>
+      <input type="text" class="tracking-input" id="traking-code-input" />
+      <button class="top-details-tracking-btn" id="traking-code-search">
+        پیگیری محصول
+      </button>
+    </div>
+  </div>
+</div>
+<div class="all-tab-tracking">
+  <div class="tab-tracking">
+    <div class="tab-tracking-titles">
+      <p>وضعیت سفارش :</p>
+    </div>
+    <div class="tab-tracking-text">
+      <p id="traking-status"></p>
+    </div>
+  </div> 
+    <div class="tab-tracking">
+      <div class="tab-tracking-titles">
+        <p>هزینه پست :</p>
+      </div>
+      <div class="tab-tracking-text tracking-price">
+        <p class="main-current-price" id="traking-post"></p>
+        <p class="riyal">تومان</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    $('#traking-code-search').click(function(){
+        const code = $('#traking-code-input').val()
+
+        $.ajax({
+        url: '{% url "ApiProducts:products_tracking_code_status" %}?code=' + code,
+        type: 'get',
+        success: (response) => {
+            let status = '';
+            switch(response.results[0].product_status){
+                case 'confirming':
+                status = 'در حال تایید'
+                break;
+                case 'confirmed':
+                status = 'تایید شده'
+                break;
+                case 'sending':
+                status = 'ارسال شده'
+                break;
+
+                case 'processed':
+                status = 'تحویل داده شده'
+                break;
+            }
+          console.log(response);
+            $('#traking-status').html(status)
+            $('#traking-post').html(response.results[0].product_post_price || 20000)
+
+        },
+      });
+    })
+  </script>
+
+  {% endblock %}
+</div>

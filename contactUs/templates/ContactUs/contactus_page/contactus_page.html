@@ -1,0 +1,82 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="content">
+
+        <div class="form-link">
+            <div class="form-right-box">
+                <ol class="ol-responsive">
+                    <li class="head-div"></li>
+                    <h2 class="form-title">اطلاعات تماس</h2>
+                    <li class="form-item "  style="display: flex; width: 80%;">
+                            <a ><img src="{% static 'icons/icon-32.png' %}"/></a>
+                            <a style="width: auto;text-align: center;"  href="#"> تهران صادقیه</a></li>
+                        <div  style="display: flex; width: 85%;">
+                            <a ><img src="{% static 'icons/icon-31.png' %}"/></a>
+                            <a style="width: auto;text-align: center;" href="#"> info@sadeghi.com</a>
+                
+                        </div>
+                        
+                        <div  style="display: flex;">
+                            <a ><img  src="{% static 'icons/icon-33.png' %}"/></a>
+                            <a style="width: auto;text-align: center;" href="#"> ساعات کار مجموعه همه روزه از ساعت 10-18</a>
+                        
+                        </div>
+                    </li>
+                    <li class="form-item  " style="display: flex;">
+                        <a ><img src="{% static 'icons/icon-26.png' %}"/></a>
+                        <div style=" width: 70%;">
+                            <a style="width: auto;" href="#"> 021-23232323</a>
+                            <a style="width: auto;" href="#"> 021-23232323</a>
+                            <a style="width: auto;" href="#"> 021-23232323</a>
+                        </div>
+                    </li> 
+    
+                    <li class="media" style="width: auto;">
+                        <div class="medialogo">
+                            <a href="#"><img src="{% static 'icons/icon-10.png' %}" alt=""></a>
+                        </div>
+                        <div class="medialogo">
+                            <a href="#"><img src="{% static 'icons/icon-11.png' %}" alt=""></a>
+                        </div>
+                        <div class="medialogo">
+                            <a href="#"><img src="{% static 'icons/icon-12.png' %}" alt=""></a>
+                        </div>
+                        <div class="medialogo">
+                            <a href="#"><img src="{% static 'icons/icon-13.png' %}" alt=""></a>
+                        </div>
+                        <div class="medialogo">
+                            <a href="#"><img src="{% static 'icons/icon-14.png' %}" alt=""></a>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            <div class="form-left-box">
+                <form action='' method='post'>
+                    {% csrf_token %}
+                <ol class="ol-responsive">
+                    <li class="">
+                        <li class="head-div"></li>
+                        <h4 style="margin-top:20px;" class="form-title">  تماس با ما </h4>
+                        <p style="margin-top: -8px;" class="form-title"> ما برای کمک و همراهی با شما اینجا هستیم. مشکلات خود را با ما درمیان بگذارید</p>
+                    </li>
+                    {{ contactusForm }}
+                <li>
+                    <div class="pro-btn">
+                        <button class="form-btn" type="submit">ارسال درخواست</button>
+                    </div>
+                </li>
+                </ol>
+            </div>
+        </div>
+    
+    </div>   
+
+{% endblock %}

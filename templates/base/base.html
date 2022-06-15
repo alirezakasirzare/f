@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="keywords" content="{% block keywords %}{% endblock %}">
+    <meta name="description" content="{% block  description %}{% endblock %}">
+    <!--styles-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'style/new_style.css' %}" />
+    <!-- <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'style/products.css' %}">
+    <link rel="stylesheet" href="{% static 'style/articles.css' %}">
+    <link rel="stylesheet" href="{% static 'style/about_style.css' %}">
+    <link rel="stylesheet" href="{% static 'style/shopping-bag.css' %}">
+    <link rel="stylesheet" href="{% static 'style/product-tracking.css' %}">
+    <link rel="stylesheet" href="{% static 'style/services.css' %}">
+    <link rel="stylesheet" href="{% static 'style/contact_style.css' %}">
+    <link rel="stylesheet" href="{% static 'style/product_details_style.css' %}">
+    <link rel="stylesheet" href="{% static 'js/splide-3.6.12/dist/css/splide.min.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css' %}"> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <!--/styles-->
+</head>
+
+<body>
+    <!--header-->
+    {% include 'base/menu/menu.html' %}
+    <!--header-->
+
+    {% block content %} {% endblock %} {% if messages %}
+    <div>
+        {% for message in messages %}
+        <div{% if message.tags %} onclick="message({{ message.tags }},{{ message }})" class="massage {{ message.tags }}" {% endif %}>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %} 
+    {% include 'base/footer/footer.html' %}
+    <!--script-->
+    <script src="{% static 'js/splide-3.6.12/dist/js/splide.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/quick-product.js' %}"></script>
+    <!-- <script src="{% static 'js/services.js' %}"></script> -->
+    <!-- <script src="https://kit.fontawesome.com/c2e98ef1bc.js" crossorigin="anonymous"></script> -->
+
+</body>
+
+
+</html>

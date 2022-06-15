@@ -1,0 +1,322 @@
+{% load static %}
+<section id="">
+  <!--  MENU -->
+  <!----------------------------------search--------------------------------->
+  <div onclick="" id="search-box" class="">
+    <button
+      onclick="myFunction2()"
+      id="search-btn-close"
+      class="search-btn-close"
+    >
+      x
+    </button>
+    <div class="main-div">
+      <input
+        type="search"
+        class="search-input"
+        placeholder="جستجو"
+        id="modal-search-input"
+      />
+      <button class="search-btn" id="search-desktop-btn">
+        <img
+          style="width: 20px; height: 20px"
+          src="{% static 'icons/icon-19.png' %}"
+          alt=""
+        />
+      </button>
+    </div>
+    <p id="not-found-search-modal" class="not-found-search">
+      هیچ آیتمی یافت نشد
+    </p>
+    <ul class="search-menu" id="search-menu-response"></ul>
+  </div>
+  <!-- ------------------------------------------------------------------------>
+
+  <nav class="header-nav">
+    <!-- responsive top menu -->
+    <div class="responsive-menu-top">
+      <div class="main-div2">
+        <button class="search-btn2" id="search-mobile-btn">
+          <div class="search-btn-icon"></div>
+        </button>
+
+        <input
+          type="search"
+          class="search-input2"
+          id="modal-search-mobile-input"
+          placeholder="جستجو..."
+        />
+      </div>
+      <div class="header-nav-logo-resp">
+        <a href="/">
+          <img
+            class="header-nav-logo-img"
+            src="{% static 'img/main-logo.png' %}"
+            alt=""
+          />
+        </a>
+      </div>
+    </div>
+    <!-- responsive top menu -->
+
+    <div class="header-nav-div">
+      <div class="header-nav-icon" onclick="menufunc()">
+        <a href="#" aria-expanded="false">
+          <div class="header-nav-icon-img"></div>
+          <em class="droopmenu-topanim"></em>
+        </a>
+      </div>
+      <div class="header-nav-logo">
+        <a href="/">
+          <img
+            class="header-nav-logo-img"
+            src="{% static 'img/main-logo.png' %}"
+            alt=""
+          />
+        </a>
+      </div>
+
+      <div class="header-nav-left-icon">
+        <div
+          onclick="myFunction()"
+          class="header-nav-left-icons search-box-responsiv"
+        >
+          <a href="#">
+            <div class="header-nav-left-icons-ic ic1"></div>
+          </a>
+        </div>
+        <div class="tooltip header-nav-left-icons">
+          <div class="menu-cover"></div>
+          <a href="/accounts/login/">
+            <div class="header-nav-left-icons-ic ic2"></div>
+          </a>
+          <div class="tooltiptext" style="margin-top: 25px">
+            {% if request.user.is_authenticated %}
+            <a class="" href="#">پنل کاربری</a>
+            {% else %}
+            <a class="" href="#">ورود</a>/
+            <a class="" href="#">ثبت نام</a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="header-nav-left-icons">
+          <div class="menu-cover"></div>
+          <a href="{% url 'carts:carts_page' %}">
+            <div class="header-nav-left-icons-ic ic3"></div>
+            <span class="cart-basket" id="cart-number"></span>
+          </a>
+        </div>
+        <div class="header-nav-left-icons">
+          <div class="menu-cover"></div>
+          <a href="{% url 'products:products_tracking_page' %}">
+            <div class="header-nav-left-icons-ic ic4"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!--------------------------------------------list ----------------------->
+    <div
+      id="menu-list"
+      class="menu-list"
+      style="
+        z-index: 10;
+        direction: rtl;
+        margin-top: -5px;
+        width: 100%;
+        height: auto;
+        position: absolute;
+        display: none;
+      "
+    >
+      <div class="tabs">
+        <button class="tablinks active" data-valuetxt="first">
+          <div class="menu-titr-icon titr-icon1"></div>
+          <p data-title="محصولات">محصولات</p>
+        </button>
+        <button class="tablinks second-menu-btn-f" data-valuetxt="second">
+          <div class="menu-titr-icon titr-icon2"></div>
+          <p data-title="خدمات ">خدمات</p>
+        </button>
+      </div>
+
+      <div class="wrapper_tabcontent">
+        <div id="first" class="tabcontent active"></div>
+        <div class="tabs">
+          <button class="tablinks second-menu-btn" data-valuetxt="second">
+            <div class="menu-titr-icon titr-icon2"></div>
+            <p data-title="خدمات ">خدمات</p>
+          </button>
+        </div>
+
+        <div id="second" class="tabcontent">
+          <ul class="lint-menu" id="service-menu-content"></ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!--  MENU -->
+
+  <script>
+    const getCatName = (obg) => {
+      return obg[Object.keys(obg)[0]];
+    };
+    const getCatKey = (obg) => {
+      return Object.keys(obg)[0];
+    };
+    $.ajax({
+      url: '/api/products/products-main-categories/',
+      type: 'get',
+      success: (response) => {
+        // console.log(response.results);
+        [...response.results].forEach((category) => {
+          // sub category 1
+          // console.log(category);
+          let subCategoriyContent = `
+          <div class="block-div">
+            <div class="header-nav-lists">
+              <a href="/products/?cat=${category.id}" class="header-nav-lists-a">${category.name}</a>
+          `;
+
+          $.ajax({
+            url: '/api/products/products-sub-categories1/?id=' + category.id,
+            type: 'get',
+            async: false,
+            cache: false,
+            success: (response2) => {
+              subCategoriyContent += `
+                  <div class="header-nav-lists-content">
+                    <ul class="nav-ul">
+
+                `;
+              [...response2].forEach((sub_categories1) => {
+                subCategoriyContent += `
+                <li class="nav-ul-li">
+                        <input type="checkbox" checked />
+                        <i class="nav-ul-li-i"></i>
+                  <a href="#">${getCatName(sub_categories1)}</a>
+   
+                  `;
+
+                $.ajax({
+                  url:
+                    '/api/products/products-sub-categories2/?id=' +
+                    getCatKey(sub_categories1),
+                  type: 'get',
+                  async: false,
+                  cache: false,
+                  success: (response3) => {
+                    subCategoriyContent += `
+                    <p class="header-nav-lists-content-li">
+
+                `;
+                    [...response3].forEach((sub_categories2) => {
+                      subCategoriyContent += `
+                      <a href="/products/?subcat2=${
+                        category.id
+                      }" class="">${getCatName(sub_categories2)}</a>
+                  `;
+                    });
+                    subCategoriyContent += `
+                  </p>
+                </li>
+
+                `;
+                  },
+                });
+              });
+              subCategoriyContent += `
+                    </ul>
+                  </div>
+                `;
+            },
+          });
+
+          subCategoriyContent += `
+        </div>
+          </div>`;
+
+          $('#first').append(subCategoriyContent);
+          // console.log(subCategoriyContent);
+        });
+      },
+    });
+  </script>
+
+  <script>
+    $.ajax({
+      url: '/api/services/services-categories-list/',
+      type: 'get',
+      success: (response) => {
+        [...response.results].forEach((category) => {
+          $('#second').append(`
+          <li class="lint-menu-item">
+              <a href="/services/?cat=${category.id}" class="lint-menu-link">${category.name}</a>
+            </li>          
+          `);
+        });
+      },
+    });
+  </script>
+
+  <script>
+    $('#search-desktop-btn').click(function () {
+      excuteSearch($('#modal-search-input').val());
+    });
+
+    $('#search-mobile-btn').click(function () {
+      excuteSearch($('#modal-search-mobile-input').val());
+      $('#modal-search-input').val($('#modal-search-mobile-input').val());
+      myFunction();
+    });
+
+    function excuteSearch(q) {
+      $('#search-menu-response').html('');
+      let counter = 0;
+      $.ajax({
+        url: `/api/products/products-search/?q=${q}`,
+        type: 'get',
+        async: false,
+        cache: false,
+        success: (response) => {
+          [...response.results].forEach((product) => {
+            counter++;
+
+            $('#search-menu-response').append(`
+            <li class="search-menu-item">
+              <a href="/products/detail/${product.id}/${product.slug}/" class="search-menu-link">${product.title}</a>
+            </li>
+            `);
+          });
+        },
+      });
+
+      $.ajax({
+        url: `/api/services/services-search/?q=${q}`,
+        type: 'get',
+        async: false,
+        cache: false,
+        success: (response) => {
+          [...response.results].forEach((service) => {
+            counter++;
+
+            $('#search-menu-response').append(`
+            <li class="search-menu-item">
+              <a href="/products/detail/${service.id}/${service.title}/" class="search-menu-link">${service.title}</a>
+            </li>
+            `);
+          });
+        },
+      });
+
+      if (counter > 0) {
+        $('#not-found-search-modal').css('display', 'none');
+      } else {
+        $('#not-found-search-modal').css('display', 'block');
+      }
+    }
+  </script>
+
+  <!-- js -->
+  <script src="{% static 'js/axios.min.js' %}"></script>
+  <script src="{% static 'js/api/menu.js' %}"></script>
+</section>

@@ -1,0 +1,356 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <!--   slider   -->
+    <section id="slider" class="">
+      <div class="container">
+        <div class="carousel-inner" id="product-slider">
+
+
+
+          
+        </div>
+      </div>
+      <div class="all-dot-btn" id="product-slider-dot">
+      </div>
+    </section>
+    <!--   products   -->
+    <div class="background"></div>
+    <h1 class="title1">جدید ترین محصولات</h1>
+    <div class="splide" dir="ltr">
+        <div class="splide__track">
+            <ul class="splide__list" id="new-products">
+              
+            </ul>
+        </div>
+    </div>
+
+  </div>
+</section>
+<!--   services   -->
+
+<h1 class="title1">بهترین خدمات</h1>
+<div class="slider-container">
+  <div class="splide">
+    <div class="splide__track">
+      <ul class="splide__list" id="best-services">
+      </ul>
+    </div>
+  </div>
+</div>
+<!--Grid section-->
+<div class="grid-card">
+  <div class="grid-col1" id="cat-home-list-big">
+  </div>
+  <div class="grid-col2" id="cat-home-list-small">
+
+  </div>
+</div>
+<!--End Grid section-->
+
+<h1 class="title1">آخرین تخفیفات</h1>
+<div class="slider-container">
+  <div class="splide">
+    <div class="splide__track">
+      <ul class="splide__list" id="discounts-products">
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="pro-btn">
+  <a href="/products/" class="button">مشاهده همه پیشنهادات</a>
+</div>
+<!-- bottom category -->
+<div class="section-p1" id="cat-home-list-bottom">
+</div>
+
+<h1 class="title1">بهترین محصولات</h1>
+<div class="slider-container">
+  <div class="splide">
+    <div class="splide__track">
+      <ul class="splide__list" id="best-products">
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+<h1 class="title1">آخرین مقالات</h1>
+<section class="">
+  <div id="article-container-id" class="products-list-container">
+
+  </div>
+</section>
+<div class="pro-btn">
+  <a href="/articles/" class="button" style="margin-bottom: 20px;">مشاهده همه مقالات</a>
+</div>
+
+<script>
+  // new products
+  const templateNewProducts = ({ title, main_image, id,slug,score,discounted_price,price }) => {
+        const productLink = `/products/detail/${id}/${slug}/`;
+        return `
+        <li class="splide__slide">
+          <div class="product-box">
+              <div class="image-parent">
+                  <a href="${productLink}" class="s100-image-container">
+                      <img class="image s100-image"  src="${main_image}" alt="${title}">
+                  </a>
+              </div>
+              <div class="details">
+
+                  <a href="${productLink}">
+                      <h2>${title}</h2>
+                  </a>
+                  <div class="rate">
+                    ${'<i class="fa fa-star"></i>'.repeat(score)}
+                      
+                  </div>
+                  ${discounted_price ? `<div class="price"><del>${price}T</del></div>` : `<div class="price">${price}T</div>`}
+                  ${discounted_price ? `<div class="price">${discounted_price}T</div>` : ``}
+              </div>
+          </div>
+        </li>
+        `;
+      };
+
+      $.ajax({
+        url: '/api/products/products-newest/',
+        type: 'get',
+        success: (response) => {
+          [...response.results].forEach(product => {
+            $('#new-products').append(
+              templateNewProducts(product)
+            );
+          })
+        },
+      });
+ // new services
+ const templateNewServies = ({ title, image, id,slug,score,discounted_price,price }) => {
+        const productLink = `/services/detail/${id}/${title}/`;
+        return `
+        <li class="splide__slide">
+          <div class="product-box">
+              <div class="image-parent">
+                  <a href="${productLink}" class="s100-image-container">
+                      <img class="image s100-image" src="${image}" alt="${title}">
+                  </a>
+              </div>
+              <div class="details">
+
+                  <a href="${productLink}">
+                      <h2>${title}</h2>
+                  </a>
+
+              </div>
+          </div>
+        </li>
+        `;
+      };
+
+      $.ajax({
+        url: '/api/services/services-best/',
+        type: 'get',
+        success: (response) => {
+          [...response.results].forEach(service => {
+            $('#best-services').append(
+              templateNewServies(service)
+            );
+          })
+        },
+      });
+
+      // discounts
+      $.ajax({
+        url: '/api/products/products-discounts/',
+        type: 'get',
+        success: (response) => {
+          [...response.results].forEach(product => {
+            $('#discounts-products').append(
+              templateNewProducts(product)
+            );
+          })
+        },
+      });
+
+      // best-products
+      $.ajax({
+        url: '/api/products/products-bestselling/',
+        type: 'get',
+        success: (response) => {
+          [...response.results].forEach(product => {
+            $('#best-products').append(
+              templateNewProducts(product)
+            );
+          })
+        },
+      });
+
+      // articles
+      const templatearticlesList = ({ title, image, id,slug,writer_fullname,short_description,jdate }) => {
+        const productLink = `/services/detail/${id}/${slug}/`;
+        return `
+      <div class="products-list-card">
+        <div class="products-list-card-image-container">
+          <img src="${image}" class="products-list-card-image" />
+        </div>
+      <div class="article-info article-info-responsive">
+        <h2 class="article-title">${title}</h2>
+          <p class="article-info-txt">
+            ${short_description}
+        </p>
+        <div class="bot-article-info">
+          <div class="bot-article-info-kid">
+            <img
+              class="bot-article-info-img"
+              src="{% static 'icons/icon-17.png' %}"
+              alt=""
+            />
+            <p class="author-data">${writer_fullname}</p>
+          </div>
+          <div class="bot-article-info-kid">
+            <img
+              class="bot-article-info-img"
+              src="{% static 'icons/icon-18.png' %}"
+              alt=""
+            />
+            <p class="author-data">${jdate}</p>
+          </div>
+        </div>
+        <div class="read-more">
+          <a class="read-more-in" href="/articles/detail/1/1/">ادامه مطلب</a>
+        </div>
+      </div>
+    </div>
+      `
+    }
+
+      $.ajax({
+        url: '/api/articles/articles-list/',
+        type: 'get',
+        success: (response) => {
+          [...response.results].forEach((article,key) => {
+            if (key < 3) {
+              $('#article-container-id').append(
+                templatearticlesList(article)
+                );
+              }
+          })
+        },
+      });
+
+// product slider
+const templateProductSlider = ({ image, url }) => {
+  return `
+        <div class="carousel-item fade">
+          <a class="slide" href="${url}"
+            ><img class="slide-img" src="${image}" alt="silder image"
+          /></a>
+        </div>
+        `;
+};
+
+$.ajax({
+  url: '/api/products/products-sliders/',
+  type: 'get',
+  success: (response) => {
+    [...response.results].forEach((slider, key) => {
+      $('#product-slider').append(templateProductSlider(slider));
+
+      $('#product-slider-dot').append(`
+            <button
+              type="button"
+              class="dot-btn slide-active"
+              onclick="currentSlide(${key + 1})"
+            ></button>
+            `);
+    });
+  },
+});
+
+
+</script>
+
+<script>
+  // categories
+  const bigCatHomeListTemplate = ({name,image,id}) => {
+    const catLink = `/products/?cat=${id}`
+    return `
+    <div class="box-grid-p1" id="cat-list-1">
+      <a class="box-grid-a2" href="${catLink}">
+        <div class="img-grid img-grid-p1">
+          <div class="s50-image-container">
+            <img
+              class="s50-image"
+              src="${image}"
+              alt="${name}"
+            />
+          </div>
+        </div>
+      </a>
+    </div>
+    `
+  }
+
+  const samallCatHomeListTemplate = ({name,image,id}) => {
+    const catLink = `/products/?cat=${id}`
+    return `
+    <div class="box-grid-p3">
+      <a class="box-grid-a1" href="${catLink}">
+        <div class="img-grid img-grid-p3">
+          <div class="img-grid img-grid-p3">
+            <div class="s50-image-container">
+              <img
+                class="s50-image"
+                src="${image}"
+                alt="${name}"
+              />
+            </div>
+          </div>
+
+        </div>
+      </a>
+    </div>
+    `
+  }
+
+  $.ajax({
+      url: '/api/products/products-main-categories/',
+      type: 'get',
+      success: (response) => {
+        [...response.results].forEach((category, key) => {
+          if (key < 5) {
+            if (key % 2 == 0 ) {
+              $('#cat-home-list-small').append(samallCatHomeListTemplate(category));
+            }else{
+              $('#cat-home-list-big').append(bigCatHomeListTemplate(category));
+            }
+          }else if (key == 5){
+            $('#cat-home-list-bottom').append(`
+            <a href="/products/?cat=${category.id}">
+              <div class="s50-image-container">
+              <img
+                class="s50-image"
+                src="${category.image}" alt="${category.name}"
+              />
+            </div>
+            </a>
+
+            `);
+          }
+
+
+        });
+      },
+    });
+
+</script>
+<script src="{% static 'js/api/product-slider.js' %}"></script>
+
+{% endblock %}

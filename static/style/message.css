@@ -1,0 +1,30 @@
+/* Tab Alert */
+
+.sucsses {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    /* background-color: #2ACB34;
+    border: 5px solid green    ; */
+}
+
+.error {
+    /* background-color: rgb(235, 26, 3); */
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+
+#snackbar {
+    width: 20%;
+    height: 60px;
+    /* color: #fff; */
+    text-align: center;
+    border-radius: 10px;
+    padding-top: 20px;
+    position: fixed;
+    z-index: 15;
+    bottom: 30px;
+    font-size: 17px;
+}

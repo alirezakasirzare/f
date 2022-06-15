@@ -1,0 +1,496 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--styles-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'style/new_style.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/products.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/seller_panel (2).css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css' %}"> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <!-- axios -->
+    <script src="{% static 'js/axios.min.js' %}"></script>
+
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"
+  ></script>
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    <!--header-->
+    {% include 'base/menu/menu.html' %}
+    <!--header-->
+
+
+    <!--script-->
+    <div class="all-panels">
+        <div class="panel">
+            <div class="panels">
+
+                <p>پنل فروش</p>
+                <div class="panels-icon"></div>
+
+            </div>
+            <div class="panels-details" onclick="SelectPanel(1)">
+                <div class="edit-prof-icon"></div>
+                <p>ویرایش حساب کاربری</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(2)">
+                <div class="product-add-icon"></div>
+                <p>افزودن محصول</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(3)">
+                <div class="product-list-icon"></div>
+                <p>لیست محصول</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(4)">
+                <div class="complaint-icon"></div>
+                <p>شکایات</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(5)">
+                <div class="comments-icon"></div>
+                <p>نظرات</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(6)">
+                <div class="chart-icon"></div>
+                <p> انتخاب نمودار</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(7)">
+                <div class="chart-icon"></div>
+                <p> چت</p>
+            </div>
+            <div class="panels-details" onclick="SelectPanel(8)">
+                <div class="chart-icon"></div>
+                <p> افزودن فروشگاه</p>
+            </div>
+            <div class="panels-details" onclick="exit(1)">
+                <div class="exit-icon"></div>
+                <p>خروج</p>
+            </div>
+        </div>
+        <div class="panel-details">
+            <div class="panels-two">
+                <p>پنل فروش</p>
+            </div>
+            <div class="panel-page seller-account">
+                <div class="seller-account-title">
+                    <p>حساب کاربری</p>
+                </div>
+                <div>
+                    <div class="acc-inputs"><input  class="services-panel-inp" id="update-sellerpanel-fullname-input" type="text" placeholder="نام و نام خانوادگی"></div>
+                </div>
+                <div class="acc-inputs">
+                    <div><input  class="services-panel-inp" id="update-sellerpanel-phone-input" type="text" placeholder="شماره تماس"></div>
+                </div>
+                <div class="acc-inputs">
+                    <div><input  class="services-panel-inp" id="update-sellerpanel-password-input" type="number" placeholder="رمز عبور جدید"></div>
+                </div>
+                <div class="acc-btn"><button type="button" id="btn-update-user-info">ویرایش</button></div>
+            </div>
+            <div class="panel-page add-products">
+                <div class="seller-account-title">
+                    <p>افزودن محصول</p>
+                </div>
+                <div class="add-details">
+                    <div style="width: 80%;margin:auto">
+
+                        <div>
+                            <p>افزودن تصویر </p>
+                        </div>
+                        <div>
+                            <input type="file" id="add-products-image1-input"  accept="image/png, image/jpg, image/jpeg">
+                        </div>
+                        <div>
+                            <input type="file" id="add-products-image2-input" accept="image/png, image/jpg, image/jpeg">
+                        </div>
+                        <div>
+                            <input type="file" id="add-products-image3-input" accept="image/png, image/jpg, image/jpeg">
+                        </div>
+                        <div>
+                            <input type="file" id="add-products-image4-input" accept="image/png, image/jpg, image/jpeg">
+                        </div>
+                        <div>
+                            <input type="file" id="add-products-image5-input" accept="image/png, image/jpg, image/jpeg">
+                        </div>
+                    </div>
+
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-title-input" type="text" placeholder="نام محصول"></div>
+                    </div>
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-dimensions-input" type="text" placeholder="ابعاد"></div>
+                    </div>
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-weight-input" type="text" placeholder="وزن"></div>
+                    </div>
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-slug-input" type="text" placeholder="slug"></div>
+                    </div>
+                    <div class="acc-inputs">
+                        <div><textarea class="services-inp" id="add-products-description-input" placeholder="توضیخات"></textarea>  </div>
+                    </div>
+                    <div class="acc-inputs">
+                        <div><textarea class="services-inp" id="add-products-short-description-input" placeholder="توضیحات کوتاه"></textarea>  </div>
+                    </div>
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-price-input" type="number" placeholder="قیمت"></div>
+                    </div>
+
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-discounted-proce-input" type="number" placeholder="قیمت بعد از اعمال تخفیف"></div>
+                    </div>
+
+
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-category-input" type="text" placeholder="دسته اصلی"></div>
+                    </div>
+
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-sub-category1-input" type="text" placeholder="زیر دسته 1"></div>
+                    </div>
+
+
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-sub-category2-input" type="text" placeholder="زیر دسته 2"></div>
+                    </div>
+
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-color-input" type="text" placeholder="رنگ"></div>
+                    </div>
+
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-size-input" type="text" placeholder="سایز"></div>
+                    </div>
+
+                    <div class="acc-inputs">
+                        <div><input class="services-inp" id="add-products-inventory-input" type="text" placeholder="موجودی انبار"></div>
+                    </div>
+
+                    <div class="add-btn"><button type="button" id="btn-add-products">افزودن</button></div>
+                </div>
+
+            </div>
+            <div class="panel-page list-products">
+                <div class="seller-account-title">
+                    <p>لیست محصول</p>
+                </div>
+
+
+                <button
+                    data-modal="#edit-ptoduct-modal"
+                    type="button"
+                    id="lunch-edit-product-modal"
+                    style="display: none;"
+                ></button>
+                <div class="modal-wrapper" id="edit-ptoduct-modal">
+                    <div class="modal">
+                      <!-- header -->
+                      <div class="modal-header">
+                        <h5>ویرایش یک محصول</h5>
+                        <button class="btn-close" data-close="#edit-ptoduct-modal">
+                          <i class="fa fa-times"></i>
+                        </button>
+                      </div>
+              
+                      <!-- body -->
+                      <div class="modal-body">
+                        <!-- name -->
+                        <form action="#" id="pay-form">
+                          <div class="form-control">
+                            <label for="input-title-edit-product" class="form-label">نام محصول</label>
+                            <input
+                              type="text"
+                              id="input-title-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+                          <div class="form-control">
+                            <label for="input-dimensions-edit-product" class="form-label">ابعاد</label>
+                            <input
+                              type="text"
+                              id="input-dimensions-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+                          <div class="form-control">
+                            <label for="input-weight-edit-product" class="form-label">وزن</label>
+                            <input
+                              type="text"
+                              id="input-weight-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+                          <div class="form-control">
+                            <label for="input-slug-edit-product" class="form-label">slug</label>
+                            <input
+                              type="text"
+                              id="input-slug-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+                          <div class="form-control">
+                            <label for="input-description-edit-product" class="form-label">توضیحات</label>
+                            <textarea
+                              type="text"
+                              id="input-description-edit-product"
+                              class="form-input"
+                            ></textarea>
+                          </div>
+
+                          <div class="form-control">
+                            <label for="input-short-description-edit-product" class="form-label">توضیحات کوچک</label>
+                            <textarea
+                                type="text"
+                                id="input-short-description-edit-product"
+                                class="form-input"
+                            ></textarea>
+                          </div>
+
+
+                          <div class="form-control">
+                            <label for="input-price-edit-product" class="form-label">قیمت</label>
+                            <input
+                              type="text"
+                              id="input-price-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+                          <div class="form-control">
+                            <label for="input-disconted-price-edit-product" class="form-label">قیمت بعد از اعمال تخفیف</label>
+                            <input
+                              type="text"
+                              id="input-disconted-price-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+                          <div class="form-control">
+                            <label for="input-category-edit-product" class="form-label">دسته اصلی</label>
+                            <input
+                              type="text"
+                              id="input-category-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+                          <div class="form-control">
+                            <label for="input-sub-category1-edit-product" class="form-label">زیر دسته یک</label>
+                            <input
+                              type="text"
+                              id="input-sub-category1-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+                          
+                          <div class="form-control">
+                            <label for="input-sub-category2-edit-product" class="form-label">زیر دسته دو</label>
+                            <input
+                              type="text"
+                              id="input-sub-category2-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+
+                          <div class="form-control">
+                            <label for="input-color-edit-product" class="form-label">رنگ</label>
+                            <input
+                              type="text"
+                              id="input-color-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+
+                          <div class="form-control">
+                            <label for="input-size-edit-product" class="form-label">سایز</label>
+                            <input
+                              type="text"
+                              id="input-size-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+
+
+                          <div class="form-control">
+                            <label for="input-inventory-edit-product" class="form-label">موجودی انبار</label>
+                            <input
+                              type="text"
+                              id="input-inventory-edit-product"
+                              class="form-input"
+                            />
+                          </div>
+              
+      
+                          <!-- submit -->
+                          <div class="center">
+                            <button type="button" class="btn btn-primary" id="btn-update-product" onclick="editProductSubmit()">
+                              ویرایش محصول
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                <div id="products-list-content"></div>
+            </div>
+            <div class="panel-page complaint-page">
+                <div class="seller-account-title">
+                    <p> شکایات</p>
+                </div>
+                <div id="complaints-content"></div>
+
+            </div>
+            <div class="panel-page comment-box">
+                <div class="seller-account-title">
+                    <p>نظرات</p>
+                </div>
+   
+                <div id="comments-content"></div>
+
+            </div>
+
+            <!--*** diagram ***-->
+            <div class=" panel-page services-panel-lengh clientele-page">
+
+               <div class="services-panel-lengh clientele-page">
+
+                    <div class="services-panel-title">
+                        <p> انتخاب نمودار</p>
+                    </div>
+
+                    <div>
+                        <p class="chart-txt">نمودار فروش روزانه </p>
+                        <canvas id="sell-chart-day" style="width:100%;"></canvas>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <p class="chart-txt">نمودار فروش هفته ای</p>
+                        <canvas id="sell-chart-week" style="width:100%;"></canvas>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <p class="chart-txt">نمودار فروش ماهانه</p>
+                        <canvas id="sell-chart-month" style="width:100%;"></canvas>
+                    </div>
+
+
+                    <div style="margin-bottom: 30px;">
+                        <p class="chart-txt">نمودار فروش سالانه</p>
+                        <canvas id="sell-chart-year" style="width:100%;"></canvas>
+                    </div>
+
+
+            </div>
+            </div>
+
+             <!--*** chat ***-->
+             <div class=" panel-page services-panel-lengh clientele-page">
+
+                <div class="services-panel-lengh clientele-page">
+ 
+                     <div class="services-panel-title">
+                         <p> چت</p>
+                     </div>
+                     <form action="./chatlist" method="GET">
+
+                     <div class="acc-btn">
+                         <button>ورود به صفحه چت</button>
+                        </div>
+                     </form>
+
+                </div>
+             </div>
+             <!--*** add shop ***-->
+             <div class=" panel-page services-panel-lengh clientele-page">
+
+                <div class="services-panel-lengh clientele-page">
+ 
+                     <div class="services-panel-title">
+                         <p> افزودن فروشگاه</p>
+                     </div>
+
+                     <div class="add-details">
+                        <div class="add-details-div">
+                            <label for="add-service-image" style="margin-left: 5px;">عکس</label>
+                            <input type="file" id="add-shop-image" accept="image/png, image/jpg, image/jpeg">
+                        </div>
+                        <div class="add-details-div">
+                            <label for="add-service-image" style="margin-left: 5px;">لایسنس</label>
+                            <input type="file" id="add-shop-licence" >
+
+                        </div>
+                        <div class="acc-inputs">
+                            <div><input class="services-inp" id="add-shop-title" type="text" placeholder="اسم فروشگاه"></div>
+                        </div>
+                        <div class="acc-inputs">
+                            <div class="acc-inputs">
+                                <textarea placeholder="توضیحات" id="add-shop-description" ></textarea>
+                            </div>
+                        </div>
+                        <div class="acc-inputs">
+                            <div><input class="services-inp" type="number" id="add-shop-category" placeholder="دسته بندی"></div>
+                        </div>
+
+                        
+                        <div class="add-btn"><button type="button" id="btn-add-shop">افزودن</button></div>
+                    </div>
+
+                </div>
+             </div>
+
+            <div id="qu-two-on" class="question-box-two qu-two-on">
+                <div class="close-icon" onclick="exit(2)"></div>
+                <div class="close-icon-big"></div>
+                <p>آیا مطمئن هستید میخواهید خارج شوید</p>
+                <div class="question-btn">
+                    <button class="yes-btn" type="submit">بله</button>
+                    <button class="no-btn" type="submit" onclick="exit(2)">خیر</button>
+                </div>
+            </div>
+
+                <!-- feedback modal -->
+                <button
+                  data-modal="#feedback-modal"
+                  type="button"
+                  id="lunch-feedback"
+                  style="display: none"
+                 ></button>
+                <div class="modal-wrapper" id="feedback-modal">
+                  <div class="modal">
+                    <!-- header -->
+                    <div class="modal-header">
+                      <h5>نتیجه درخواست</h5>
+                      <button class="btn-close" data-close="#feedback-modal">
+                        <i class="fa fa-times"></i>
+                      </button>
+                    </div>
+
+                    <!-- body -->
+                    <div class="modal-body" id="feedback"></div>
+                  </div>
+         </div>
+
+            <script src="{% static 'js/seller-panel (1).js' %}"></script>
+            <script src="{% static 'js/api/seller-panel.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/chat/chat-ui.js' %}"></script>
+</body>
+
+
+</html>

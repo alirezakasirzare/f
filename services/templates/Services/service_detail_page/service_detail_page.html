@@ -1,0 +1,318 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <!--styles-->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'style/new_style.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'style/servicest-details-style.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'style/contact_style.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'js/splide-3.6.12/dist/css/splide.min.css' %}"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css' %}"> -->
+
+    <!--/styles-->
+    <title>wellcome to C2|Home</title>
+  </head>
+
+  <body>
+    <!--header-->
+
+    {% include 'base/menu/menu.html' %}
+
+    <!--header-->
+    <!-- content -->
+
+    <!--   slider   -->
+    <div style="width: 100%; background-color: #f7f7f7">
+      <section class="main-content">
+        <div class="containerdetails">
+          <img class="slide-imgditils" alt="..." id="service-image" />
+        </div>
+        <div class="form-left-box">
+          <ol class="my-info-list">
+            <li class="form-item">
+              <div class="div-style">
+                <h2 style="color: #f26a4f" class="" id="service-title"></h2>
+              </div>
+            </li>
+            <li style="display: flex; width: 100%">
+              <p
+                style="margin-top: -8px; margin-right: -1px"
+                class="form-title"
+                id="service-description"
+              ></p>
+            </li>
+            <li>
+              <div class="pro-btn2">
+                <a
+                  href=""
+                  style="text-align: center; color: #fff"
+                  class="form-btn2"
+                  type="button"
+                  id="btn-start-chat"
+                >
+                  دریافت قیمت و مشاوره
+                </a>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </div>
+
+    <!--   slider   -->
+
+    <section class=""></section>
+
+    <section id="detailswrapper">
+      <div class="detailscontent">
+        <!-- Tab links -->
+        <div class="detailstabs">
+          <button
+            class="detailstablinks detailsactive"
+            data-valuetxt="firstdetails"
+          >
+            <p data-title="معرفی ">معرفی</p>
+          </button>
+          <button class="detailstablinks" data-valuetxt="seconddetails">
+            <p data-title=" جزئیات شرکت">جزئیات شرکت</p>
+          </button>
+          <button class="detailstablinks" data-valuetxt="fourthdetails">
+            <p data-title=" نظرات">نظرات</p>
+          </button>
+        </div>
+
+        <!-- Tab content -->
+        <div class="detailswrapper_tabcontent">
+          <div id="firstdetails" class="detailstabcontent detailsactive">
+            <!-- <h3> معرفی</h3> -->
+            <p id="service-bottom-description"></p>
+          </div>
+
+          <div id="seconddetails" class="detailstabcontent">
+            <!-- <h3> جزئیات</h3> -->
+            <div class="detailstabdiv">
+              <p class="detailstabp">اسم شرکت</p>
+              <p class="detailstabp" id="service-company-name"></p>
+            </div>
+            <div class="detailstabdiv">
+              <p class="detailstabp">مدیریت</p>
+              <p class="detailstabp" id="service-company-management"></p>
+            </div>
+            <div class="detailstabdiv">
+              <p class="detailstabp">سال تاسیس</p>
+              <p class="detailstabp" id="service-company-established-year"></p>
+            </div>
+            <div class="detailstabdiv">
+              <p class="detailstabp">ادرس</p>
+              <p class="detailstabp" id="service-company-address"></p>
+            </div>
+          </div>
+
+          <div id="fourthdetails" class="detailstabcontent">
+            <!-- <h3> نظرات</h3> -->
+            <div id="service-comment-list"></div>
+            <div style="display: block; width: 100%">
+              <h4 style="color: #f26a4f">ثبت دیدگاه جدید</h4>
+              <p>شما هم درباره این کالا دیدگاه ثب کنید</p>
+              <div class="form-details">
+                <!-- <ol> -->
+
+                <li class="form-item-details" style="display: flex; width: 94%">
+                  <div style="width: 100%">
+                    <textarea
+                      class="form-input-textarea2"
+                      placeholder="متن پیام"
+                      name="textarea-input"
+                      rows="5"
+                      cols="50"
+                      id="comment-text-input"
+                    ></textarea>
+                  </div>
+                </li>
+
+                <!-- <li> -->
+                <div class="pro-btn22">
+                  <button
+                    class="form-btn"
+                    id="add-comment-to-service"
+                    type="button"
+                  >
+                    ارسال نظر
+                  </button>
+                </div>
+                <!-- </li> -->
+
+                <!-- </ol> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <h1 class="title1">خدمات مشابه</h1>
+    <div class="splide" dir="ltr">
+      <div class="splide__track">
+        <ul class="splide__list" id="best-slider"></ul>
+      </div>
+    </div>
+
+    <!-- feedback modal -->
+    <button
+      data-modal="#feedback-modal"
+      type="button"
+      id="lunch-feedback"
+      style="display: none"
+    ></button>
+    <div class="modal-wrapper" id="feedback-modal">
+      <div class="modal">
+        <!-- header -->
+        <div class="modal-header">
+          <h5>نتیجه درخواست</h5>
+          <button class="btn-close" data-close="#feedback-modal">
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+
+        <!-- body -->
+        <div class="modal-body" id="feedback"></div>
+      </div>
+    </div>
+
+    <!-- content -->
+    <script></script>
+    <!-- footer -->
+    {% include 'base/footer/footer.html' %}
+
+    <!-- dynamic -->
+    <script>
+      const urlPage = window.location.pathname;
+      const substrings = urlPage.split('/');
+      const idMain = substrings[3];
+
+      $.ajax({
+        url: '{% url "ApiServices:services_detail" %}' + '?id=' + idMain,
+        type: 'get',
+        success: (response) => {
+          $('#service-image').prop('src', response.results[0].image);
+          $('#service-title').html(response.results[0].title);
+          $('#service-description').html(response.results[0].short_description);
+          $('#service-bottom-description').html(
+            response.results[0].short_description
+          );
+          $('#service-company-name').html(
+            response.results[0].company_info[0].name
+          );
+          $('#service-company-management').html(
+            response.results[0].company_info[1].management
+          );
+          $('#service-company-established-year').html(
+            response.results[0].company_info[2].established_year
+          );
+          $('#service-company-address').html(
+            response.results[0].company_info[3].address
+          );
+        },
+      });
+
+      $.ajax({
+        url: '{% url "ApiServices:services_comments_list" %}' + '?id=' + idMain,
+        type: 'get',
+        success: (response) => {
+          [...response.results].forEach((comment) => {
+            $('#service-comment-list').append(`
+              <div class="detailstabdiv3">
+                <img class="profileimg" src="${
+                  comment.user_image ||
+                  'https://digi1store.com/images/avatar.jpg'
+                }" />
+                <div class="detailstabdiv22">
+                  <p>${comment.user_fullname}</p>
+                  <p>${comment.jdate}</p>
+                  <p>
+                    ${comment.comment}
+                  </p>
+                </div>
+              </div>
+            `);
+          });
+        },
+      });
+
+      $('#btn-start-chat').prop(
+        'href',
+        `{% url "ApiUserPanel:userpanel_service_messages_add" %}?service=${idMain}`
+      );
+    </script>
+
+    <script>
+      // semilas slider
+      const templateSlider = ({ title, image, id }) => {
+        const productLink = `{% url "services:service_detail_page" %}${id}/${title}/`;
+        return `
+          <li class="splide__slide">
+            <div class="product-box">
+              <div class="image-parent">
+                <a href="#">
+                  <img
+                    class="image"
+                    src="${image}"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div class="details">
+                <a href="#">
+                  <h2>${title}</h2>
+                </a>
+              </div>
+            </div>
+          </li>
+        `;
+      };
+      $.ajax({
+        url: '{% url "ApiServices:services_similar" %}' + '?id=' + idMain,
+        type: 'get',
+        success: (response) => {
+          console.log(response);
+          $('#best-slider').append(
+            templateSlider({ ...response.results['0'] })
+          );
+        },
+      });
+    </script>
+    <!-- footer -->
+    <script src="{% static 'js/chat/chat-ui.js' %}"></script>
+
+    <script src="{% static 'js/api/service-detail.js' %}"></script>
+
+    <script src="{% static 'js/splide-3.6.12/dist/js/splide.js' %}"></script>
+
+    <script src="{% static 'js/servicest-details.js' %}"></script>
+  </body>
+</html>

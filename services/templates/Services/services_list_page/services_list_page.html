@@ -1,0 +1,225 @@
+{% extends 'base/base.html' %} {% load static %} {% block title %} {{ title }}
+{% endblock %} {% block content %}
+<section id="slider" class="">
+  <div class="container">
+    <div class="carousel-inner" id="product-slider"></div>
+  </div>
+
+  <div class="all-dot-btn" id="product-slider-dot"></div>
+</section>
+<!--------------------------------------------  /slider -------------------------------------------->
+<!-----------------------------------------------      body       ---------------------------------------------->
+<!-- list -->
+<div>
+  <div class="products-list-container" id="services-list-container"></div>
+  <div class="pagination-list">
+    <a
+      href="#"
+      class="btn btn-primary-page disabled"
+      id="products-list-page-next"
+    >
+      صفحه بعد
+    </a>
+    <a
+      href="#"
+      class="btn btn-primary-page disabled"
+      id="products-list-page-prev"
+    >
+      صفحه قبل
+    </a>
+  </div>
+
+  <!-- <div></div> -->
+</div>
+
+<!------------------------------------------------------  /body  ------------------------------------------------>
+<div class="section-p1-service">
+  <img src="{% static 'img/pic-37.png' %}" alt="" />
+  <div>
+    <!-- <div class="section-p1-txt-service">پیشنهاد خدمات بر اساس نیاز شما</div> -->
+    <div class="section-p1-txt-service">در هر حالت کنار شما هستیم</div>
+    <!-- <br> -->
+    <!-- <button type="button" class="" onclick="suggbox(1)">همین حالا امتحان کن!</button> -->
+  </div>
+</div>
+<!-------------------------------------------      product slider 1     ---------------------------------------->
+
+<!------------------------------------------     /product slider 1      ---------------------------------------->
+<!-------------------------------------------      product slider 2     ---------------------------------------->
+
+<h1 class="title1">بهترین خدمات</h1>
+<div class="splide" dir="ltr">
+  <div class="splide__track">
+    <ul class="splide__list" id="best-slider"></ul>
+  </div>
+</div>
+
+<script>
+  // list  products
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+
+  function insertParam(key, value) {
+    key = encodeURIComponent(key);
+    value = encodeURIComponent(value);
+
+    // kvp looks like ['key1=value1', 'key2=value2', ...]
+    var kvp = document.location.search.substr(1).split('&');
+    let i = 0;
+
+    for (; i < kvp.length; i++) {
+      if (kvp[i].startsWith(key + '=')) {
+        let pair = kvp[i].split('=');
+        pair[1] = value;
+        kvp[i] = pair.join('=');
+        break;
+      }
+    }
+
+    if (i >= kvp.length) {
+      kvp[kvp.length] = [key, value].join('=');
+    }
+
+    // can return this or...
+    let params = kvp.join('&');
+
+    return params;
+  }
+
+  const templateservicesList = ({ title, image, price, id }) => {
+    const serviceLink = `{% url "services:service_detail_page" %}${id}/${title}/`;
+
+    return `
+      <div class="products-list-card">
+        <div class="products-list-card-image-container">
+          <img
+            src="${image}"
+            class="products-list-card-image"
+            alt="${title}"
+          />
+        </div>
+        <h4>${title}</h4>
+        <div>
+          <a href="${serviceLink}" class="btn btn-primary btn-list-products">دیدن خدمات</a>
+        </div>
+     </div>
+      `;
+  };
+
+  // list  products
+  function ajaxGetListServices(url) {
+    $.ajax({
+      url,
+      type: 'get',
+      success: (response) => {
+        // next page
+        if (response.next) {
+          const nextPage = +params.page + 1 || 2;
+          $('#products-list-page-next').removeClass('disabled');
+          $('#products-list-page-next').prop(
+            'href',
+            `/products/${insertParam('page', nextPage)}`
+          );
+        }
+        // prev page
+        if (response.previous) {
+          const nextPage = +params.page - 1 || 1;
+          $('#products-list-page-prev').removeClass('disabled');
+          $('#products-list-page-prev').prop(
+            'href',
+            `/products/${insertParam('page', nextPage)}`
+          );
+        }
+
+        [...response.results].forEach((service) => {
+          $('#services-list-container').append(templateservicesList(service));
+        });
+      },
+    });
+  }
+
+  if (params.cat) {
+    ajaxGetListServices(
+      `{% url "ApiServices:services_filter_category" %}?id=${params.cat}&page=${
+        params.page || 1
+      }`
+    );
+  } else {
+    ajaxGetListServices(
+      `{% url "ApiServices:services_list" %}/?page=${params.page || 1}`
+    );
+  }
+</script>
+
+<script>
+  const urlPage = window.location.pathname;
+  const substrings = urlPage.split('/');
+  const idMain = substrings[3];
+
+  const templateSlider = ({ title, image, id }) => {
+    const productLink = `{% url "services:service_detail_page" %}${id}/${title}/`;
+    return `
+          <li class="splide__slide">
+            <div class="product-box">
+              <div class="image-parent">
+                <a href="${productLink}" class="s100-image-container">
+                  <img
+                    class="image s100-image"
+                    src="${image}"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div class="details">
+                <a href="${productLink}">
+                  <h2>${title}</h2>
+                </a>
+              </div>
+            </div>
+          </li>
+        `;
+  };
+  $.ajax({
+    url: '/api/services/services-best/',
+    type: 'get',
+    success: (response) => {
+      console.log(response);
+      $('#best-slider').append(templateSlider({ ...response.results['0'] }));
+    },
+  });
+</script>
+
+<script>
+  // product slider
+  const templateProductSlider = ({ image, url }) => {
+    return `
+          <div class="carousel-item fade">
+            <a class="slide" href="${url}"
+              ><img class="slide-img" src="${image}" alt="silder image"
+            /></a>
+          </div>
+          `;
+  };
+
+  $.ajax({
+    url: '{% url "ApiProducts:products_sliders" %}',
+    type: 'get',
+    success: (response) => {
+      [...response.results].forEach((slider, key) => {
+        $('#product-slider').append(templateProductSlider(slider));
+
+        $('#product-slider-dot').append(`
+              <button
+                type="button"
+                class="dot-btn slide-active"
+                onclick="currentSlide(${key + 1})"
+              ></button>
+              `);
+      });
+    },
+  });
+</script>
+<script src="{% static 'js/services.js' %}"></script>
+
+{% endblock %}

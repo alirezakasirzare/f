@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--styles-->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'style/new_style.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/user_panel_style.css' %}" />
+    <!-- axios -->
+    <script src="{% static 'js/axios.min.js' %}"></script>
+
+    <!-- <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css' %}"> -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+
+    <!--/styles-->
+    <title>{{ title }}</title>
+  </head>
+
+  <body>
+    <!--header-->
+    {% include 'base/menu/menu.html' %}
+    <!--header-->
+
+    <!--script-->
+    <div class="main-content-userpanel">
+      <div class="panel">
+        <div class="panels">
+          <p>پنل کاربری</p>
+          <div class="panels-icon"></div>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(1)">
+          <div class="edit-prof-icon"></div>
+          <p>ویرایش حساب کاربری</p>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(2)">
+          <div class="order-history-icon"></div>
+          <p>سابقه سفارش</p>
+        </div>
+
+        <div class="panels-details" onclick="SelectPanel(3)">
+          <div class="services-received-icon"></div>
+          <p>خدمات دریافت شده</p>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(4)">
+          <div class="discount-icon"></div>
+          <p>تخفیفات</p>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(5)">
+          <div class="score-icon"></div>
+          <p>امتیاز</p>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(6)">
+          <div class="comments-icon"></div>
+          <p>نظرات</p>
+        </div>
+        <div class="panels-details" onclick="SelectPanel(7)">
+          <div class="order-history-icon"></div>
+          <p>چت</p>
+        </div>
+        <div class="panels-details" onclick="exit(1)">
+          <div class="exit-icon"></div>
+          <p>خروج</p>
+        </div>
+      </div>
+
+      <div class="panel-details">
+        <div id="edit-acount" class="user-panel-tab panel-page">
+          <h3 class="user-panel-title">ویرایش حساب کاربری</h3>
+          <input
+            class="user-panel-input"
+            type="text"
+            placeholder="نام و نام خانوادگی"
+            id="update-userinfo-fullname-input"
+          />
+          <input
+            class="user-panel-input"
+            type="text"
+            placeholder="شماره تماس"
+            id="update-userinfo-phone-input"
+          />
+          <input
+            class="user-panel-input"
+            type="text"
+            placeholder="رمز عبور جدید"
+            id="update-userinfo-password-input"
+          />
+          <button
+            type="button"
+            class="user-panel-btn"
+            id="btn-update-user-info"
+          >
+            ویرایش
+          </button>
+        </div>
+
+        <div id="order-history" class="order-history panel-page">
+          <h3 class="user-panel-title">سابقه سفارش</h3>
+          <div id="history-products-content"></div>
+        </div>
+
+        <div id="services-received" class="services-received panel-page">
+          <h3 class="user-panel-title">خدمات دریافت شده</h3>
+          <div id="recived-services-content"></div>
+        </div>
+
+        <div id="discount" class="discount panel-page">
+          <h3 class="user-panel-title">تخفیفات</h3>
+          <div id="discounts-content"></div>
+        </div>
+
+        <div id="score" class="score panel-page">
+          <h3 class="user-panel-title">امتیازات شما</h3>
+          <div id="scores-content"></div>
+        </div>
+
+        <div id="comments" class="comments panel-page">
+          <h3 class="user-panel-title">نظرات</h3>
+          <div id="comments-content"></div>
+        </div>
+
+        <div id="chat" class="comments panel-page">
+          <h3 class="user-panel-title">چت</h3>
+          <form action="./chatlist" method="GET">
+            <div class="acc-btn">
+              <button class="user-panel-btn">ورود به صفحه چت</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="question-box-two qu-two-on" id="qu-two-on">
+      <div class="close-icon" onclick="exit(2)"></div>
+      <div class="close-icon-big"></div>
+      <p>آیا مطمئن هستید میخواهید خارج شوید</p>
+      <div class="question-btn">
+        <button class="yes-btn" type="submit">بله</button>
+        <button class="no-btn" type="submit" onclick="exit(2)">خیر</button>
+      </div>
+    </div>
+
+    <!-- feedback modal -->
+    <button
+      data-modal="#feedback-modal"
+      type="button"
+      id="lunch-feedback"
+      style="display: none"
+    ></button>
+    <div class="modal-wrapper" id="feedback-modal">
+      <div class="modal">
+        <!-- header -->
+        <div class="modal-header">
+          <h5>نتیجه درخواست</h5>
+          <button class="btn-close" data-close="#feedback-modal">
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+
+        <!-- body -->
+        <div class="modal-body" id="feedback"></div>
+      </div>
+    </div>
+
+    <script src="{% static 'js/chat/chat-ui.js' %}"></script>
+    <script src="{% static 'js/user-panel.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/fixed.js' %}"></script>
+    <script src="{% static 'js/api/user-panel.js' %}"></script>
+  </body>
+</html>

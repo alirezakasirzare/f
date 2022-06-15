@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>چت</title>
+
+    <!-- axios -->
+    <script src="{% static 'js/axios.min.js' %}"></script>
+
+    <!-- style -->
+    <link rel="stylesheet" href="{% static 'style/fontiran.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/chat.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'fonts/import-webfont/fs-min.css' %}"
+    />
+  </head>
+  <body>
+    <!-- person info -->
+    <header class="chat-header">
+      <div class="container">
+        <div class="header-info-chat">
+          <div class="header-person">
+            <span class="person-name">چت</span>
+          </div>
+          <div class="ping">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- chat -->
+    <main class="container chat-container">
+      <div id="content"></div>
+    </main>
+
+    <!-- input send message -->
+    <div class="chat-form">
+      <form action="#" class="container form-chat-container" id="send-message">
+        <div class="form-chat-control">
+          <!-- inputes -->
+          <input
+            type="text"
+            class="chat-input"
+            placeholder="نوشتن پیام"
+            id="chat-input-send"
+            autocomplete="off"
+          />
+          <input type="file" class="chat-input-file" id="chat-input-file" />
+
+          <!-- send message -->
+          <button
+            class="btn-icon btn-icon-light fade hidden"
+            type="submit"
+            id="chat-btn-send"
+          >
+            <img
+              src="{% static 'icons/send.svg' %}"
+              alt="send"
+              class="btn-icon-image"
+            />
+          </button>
+
+          <!-- choose file -->
+          <button
+            class="btn-icon btn-icon-light fade"
+            type="button"
+            id="chat-btn-file"
+          >
+            <i class="fal fa-link"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- js -->
+    <script src="{% static 'js/chat/chat-ui.js' %}"></script>
+    <script src="{% static 'js/chat/chat-userpanel-seller.js' %}"></script>
+  </body>
+</html>

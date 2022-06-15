@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>چت</title>
+
+    <!-- axios -->
+    <script src="{% static 'js/axios.min.js' %}"></script>
+
+    <!-- style -->
+    <link rel="stylesheet" href="{% static 'style/fontiran.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/chat.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'fonts/import-webfont/fs-min.css' %}"
+    />
+  </head>
+  <body>
+    <!-- person info -->
+    <header class="chat-header">
+      <div class="container">
+        <p class="chat-header-text">لیست پیام ها</p>
+      </div>
+    </header>
+
+    <!-- list chats -->
+    <main class="container chat-list-container">
+      <div id="content"></div>
+    </main>
+
+    <!-- js -->
+    <script src="{% static 'js/chat/chat-ui.js' %}"></script>
+    <script src="{% static 'js/chat/chatlist-sellerpanel.js' %}"></script>
+  </body>
+</html>
